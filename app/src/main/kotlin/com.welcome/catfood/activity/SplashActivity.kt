@@ -1,6 +1,7 @@
 package com.welcome.catfood.activity
 
-import android.animation.Animator
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.Glide
@@ -13,11 +14,9 @@ import com.welcome.catfood.MainActivity
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
-import kotlinx.android.synthetic.main.activity_splash.*
-import android.R.attr.resource
-import android.annotation.SuppressLint
 import com.welcome.catfood.extend.getVersionName
-import java.lang.reflect.AccessibleObject.setAccessible
+import kotlinx.android.synthetic.main.activity_splash.*
+import pub.devrel.easypermissions.EasyPermissions
 
 
 /**
@@ -94,10 +93,17 @@ class SplashActivity : BaseActivity<IBasePresenter>() {
         splash_name_tv.animate().alpha(1f).setDuration(1000).start()
         splash_version_name_tv.animate().alpha(1f).setDuration(4000).start()
         splash_version_name_tv.text = "v ${getVersionName()}"
+
+        selfRequestPermission()
     }
 
     override fun startRequest() {
 
+    }
+
+    private fun selfRequestPermission() {
+        val perms = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        EasyPermissions.requestPermissions(this, "奴才需要这些权限，请主子允许", 0, *perms)
     }
 
     override fun onBackPressed() {
