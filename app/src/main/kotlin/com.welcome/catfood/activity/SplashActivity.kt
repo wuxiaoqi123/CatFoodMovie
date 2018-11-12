@@ -15,8 +15,9 @@ import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
 import kotlinx.android.synthetic.main.activity_splash.*
 import android.R.attr.resource
+import android.annotation.SuppressLint
+import com.welcome.catfood.extend.getVersionName
 import java.lang.reflect.AccessibleObject.setAccessible
-
 
 
 /**
@@ -30,10 +31,13 @@ import java.lang.reflect.AccessibleObject.setAccessible
  */
 class SplashActivity : BaseActivity<IBasePresenter>() {
 
+    private var isOnBack = false
+
     override fun layoutId(): Int {
         return R.layout.activity_splash
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         Glide.with(this).load(R.drawable.picture_splash).listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
@@ -74,6 +78,7 @@ class SplashActivity : BaseActivity<IBasePresenter>() {
                         delay += getDelayMethod.invoke(gifDecoder, i) as Int
                     }
                     splash_img.postDelayed({
+                        if (isOnBack) return@postDelayed
                         val intent = Intent(this@SplashActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -88,10 +93,15 @@ class SplashActivity : BaseActivity<IBasePresenter>() {
         splash_img.animate().alpha(1f).setDuration(2000).start()
         splash_name_tv.animate().alpha(1f).setDuration(1000).start()
         splash_version_name_tv.animate().alpha(1f).setDuration(4000).start()
+        splash_version_name_tv.text = "v ${getVersionName()}"
     }
 
     override fun startRequest() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        isOnBack = true
+    }
 }

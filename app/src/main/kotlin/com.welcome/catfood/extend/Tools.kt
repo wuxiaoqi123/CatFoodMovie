@@ -1,7 +1,6 @@
 package com.welcome.catfood.extend
 
 import android.app.Activity
-import android.content.Intent
 
 /**
  * <pre>
@@ -12,4 +11,9 @@ import android.content.Intent
  *     version: 1.0
  * </pre>
  */
+
+fun Activity.getVersionName(): String {
+    val packageInfo = packageManager.getPackageInfo(packageName, 0)
+    return packageInfo.versionName
+}
 
