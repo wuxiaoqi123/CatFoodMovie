@@ -7,7 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.fragment.FindFragment
 import com.welcome.catfood.fragment.HomeFragment
+import com.welcome.catfood.fragment.HotFragment
+import com.welcome.catfood.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<IBasePresenter>() {
@@ -23,18 +26,18 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     private fun initTabs() {
         tabhost.setup(this, supportFragmentManager, R.id.main_content_fl)
         val homeTabSpec = tabhost.newTabSpec("home")
-            .setIndicator(buildIndicator("首页", R.drawable.ic_home_normal))
+            .setIndicator(buildIndicator("首页", R.drawable.selector_home_tab))
         val hotTabSpec = tabhost.newTabSpec("hot")
-            .setIndicator(buildIndicator("热门", R.drawable.ic_hot_normal))
+            .setIndicator(buildIndicator("热门", R.drawable.selector_hot_tab))
         val findTabSpec = tabhost.newTabSpec("find")
-            .setIndicator(buildIndicator("发现", R.drawable.ic_hot_normal))
+            .setIndicator(buildIndicator("发现", R.drawable.selector_find_tab))
         val mineTabSpec = tabhost.newTabSpec("mine")
-            .setIndicator(buildIndicator("我的", R.drawable.ic_hot_normal))
+            .setIndicator(buildIndicator("我的", R.drawable.selector_mine_tab))
         tabhost.clearAllTabs()
         tabhost.addTab(homeTabSpec, HomeFragment::class.java, null)
-        tabhost.addTab(hotTabSpec, HomeFragment::class.java, null)
-        tabhost.addTab(findTabSpec, HomeFragment::class.java, null)
-        tabhost.addTab(mineTabSpec, HomeFragment::class.java, null)
+        tabhost.addTab(hotTabSpec, HotFragment::class.java, null)
+        tabhost.addTab(findTabSpec, FindFragment::class.java, null)
+        tabhost.addTab(mineTabSpec, MineFragment::class.java, null)
     }
 
     /**

@@ -12,12 +12,13 @@ import com.welcome.catfood.base.BaseFragment
  *     author : wuxiaoqi
  *     e-mail : 1321972760@qq.com
  *     time   : 2018/11/15
- *     desc   : 首页
+ *     desc   : 发现
  *     version: 1.0
  * </pre>
  */
-class HomeFragment : BaseFragment() {
+class FindFragment : BaseFragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_find, container, false)
     }
 }
