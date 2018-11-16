@@ -1,8 +1,10 @@
 package com.welcome.catfood.extend
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.Resources
 import android.view.View
+import com.welcome.catfood.util.ToastUtil
 
 /**
  * <pre>
@@ -22,5 +24,9 @@ fun Activity.getVersionName(): String {
 fun View.dp2px(value: Float): Float {
     val density = Resources.getSystem().displayMetrics.density
     return (value * density + 0.5f)
+}
+
+fun Context.showToast(msg: String) {
+    ToastUtil.show(msg)
 }
 

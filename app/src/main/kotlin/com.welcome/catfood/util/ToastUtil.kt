@@ -2,6 +2,7 @@ package com.welcome.catfood.util
 
 import android.content.Context
 import android.widget.Toast
+import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.config.Config
 
 /**
@@ -17,7 +18,7 @@ object ToastUtil {
 
     const val show = Config.TOAST_SHOW
 
-    fun show(context: Context, text: String, duration: Int = Toast.LENGTH_SHORT) {
-        if (show) Toast.makeText(context, text, duration).show()
+    fun show(text: String, duration: Int = Toast.LENGTH_SHORT) {
+        if (show) Toast.makeText(CatFoodApplication.context, text, duration).show()
     }
 }

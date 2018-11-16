@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.extend.showToast
 import com.welcome.catfood.fragment.FindFragment
 import com.welcome.catfood.fragment.HomeFragment
 import com.welcome.catfood.fragment.HotFragment
@@ -53,5 +54,16 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     }
 
     override fun startRequest() {
+    }
+
+    private var mExitTime: Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
+            super.onBackPressed()
+        } else {
+            mExitTime = System.currentTimeMillis()
+            showToast("再按一次关闭App")
+        }
     }
 }
