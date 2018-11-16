@@ -18,7 +18,13 @@ import com.welcome.catfood.base.BaseFragment
  */
 class MineFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_mine, container, false)
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_mine
+    }
+
+    override fun initView() {
+    }
+
+    override fun lazyLoad() {
     }
 }

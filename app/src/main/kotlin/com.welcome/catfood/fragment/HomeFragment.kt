@@ -17,7 +17,14 @@ import com.welcome.catfood.base.BaseFragment
  * </pre>
  */
 class HomeFragment : BaseFragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_home
+    }
+
+    override fun initView() {
+    }
+
+    override fun lazyLoad() {
     }
 }

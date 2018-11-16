@@ -1,9 +1,5 @@
 package com.welcome.catfood.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
 
@@ -18,7 +14,13 @@ import com.welcome.catfood.base.BaseFragment
  */
 class HotFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_hot, container, false)
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_hot
+    }
+
+    override fun initView() {
+    }
+
+    override fun lazyLoad() {
     }
 }
