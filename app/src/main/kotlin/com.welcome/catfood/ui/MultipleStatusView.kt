@@ -17,7 +17,7 @@ import com.welcome.catfood.R
  *     version: 1.0
  * </pre>
  */
-class MultipStatusView : RelativeLayout {
+class MultipleStatusView : RelativeLayout {
 
     companion object {
         const val TAG = "MultipStatusView"

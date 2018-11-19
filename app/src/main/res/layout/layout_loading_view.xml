@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loading_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     tools:ignore="UseCompoundDrawables">
 
-    <ImageView
-        android:id="@+id/tab_icon_img"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="5dp"
-        android:contentDescription="@null" />
+    <ProgressBar
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
 
     <TextView
-        android:id="@+id/tab_icon_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="6dp"
-        android:textColor="@color/select_tab_text"
-        android:textSize="11sp" />
+        android:layout_marginTop="10dp"
+        android:text="联络地球中..."
+        android:textColor="@color/color_gray"
+        android:textSize="14sp"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

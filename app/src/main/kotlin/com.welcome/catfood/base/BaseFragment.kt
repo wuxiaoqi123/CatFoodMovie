@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.welcome.catfood.app.CatFoodApplication
-import com.welcome.catfood.ui.MultipStatusView
+import com.welcome.catfood.ui.MultipleStatusView
 import com.welcome.catfood.util.LogUtil
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -27,10 +27,10 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private var hasLoadData = false
 
-    protected var mLayoutStatusView: MultipStatusView? = null
+    protected var mLayoutStatusView: MultipleStatusView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutId(), null)
+        return inflater.inflate(getLayoutId(), container, false)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

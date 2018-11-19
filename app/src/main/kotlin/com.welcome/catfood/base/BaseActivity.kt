@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.welcome.catfood.app.CatFoodApplication
-import com.welcome.catfood.ui.MultipStatusView
+import com.welcome.catfood.ui.MultipleStatusView
 import com.welcome.catfood.util.LogUtil
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -25,7 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions
 abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),
     EasyPermissions.PermissionCallbacks {
 
-    protected var mLayoutStatusView: MultipStatusView? = null
+    protected var mLayoutStatusView: MultipleStatusView? = null
 
     protected var presenterImp: P? = null
 
