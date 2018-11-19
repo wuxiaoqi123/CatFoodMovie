@@ -73,7 +73,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingBottom="51dp" />
-
             </com.welcome.catfood.ui.MultipleStatusView>
         </FrameLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
