@@ -174,8 +174,8 @@ class MultipleStatusView : RelativeLayout {
 
     private fun showContentView() {
         for (i in 0..childCount) {
-            val view = getChildAt(i)
-            view.visibility = if (mOtherIds.contains(view.id)) View.GONE else View.VISIBLE
+            val view: View? = getChildAt(i)
+            view?.visibility = if (mOtherIds.contains(view?.id)) View.GONE else View.VISIBLE
         }
     }
 

@@ -1,20 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/mToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:contentInsetStart="0dp">
 
+        <RelativeLayout
+            android:id="@+id/mToolbarRl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/mHeaderTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/mHeaderSearchImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_action_search_black"
+                android:transitionName="transition_reveal"
+                tools:targetApi="lollipop" />
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:srlAccentColor="@android:color/white"
+        app:srlEnableHeaderTranslationContent="false"
+        app:srlEnableLoadmore="false"
+        app:srlPrimaryColor="@color/colorPrimary">
 
         <com.scwang.smartrefresh.header.MaterialHeader
             android:layout_width="match_parent"
@@ -25,6 +60,7 @@
             android:layout_height="match_parent">
 
             <com.welcome.catfood.ui.MultipleStatusView
+                android:id="@+id/mMultipleStatusView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:emptyView="@layout/layout_empty_view"
@@ -39,9 +75,6 @@
                     android:paddingBottom="51dp" />
 
             </com.welcome.catfood.ui.MultipleStatusView>
-
         </FrameLayout>
-
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 </LinearLayout>
