@@ -27,7 +27,9 @@ ext {
             retrofit2               : "com.squareup.retrofit2:retrofit:$dependVersion.retrofit2SdkVersion",
             retrofitConverterGson2  : "com.squareup.retrofit2:converter-gson:$dependVersion.retrofit2SdkVersion",
             retrofitAdapterRxjava2  : "com.squareup.retrofit2:adapter-rxjava2:$dependVersion.retrofit2SdkVersion",
-            okhttp3LoggerInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+            okhttp3LoggerInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.4.1',
+            rxlifecycle             : 'com.trello.rxlifecycle2:rxlifecycle:2.1.0',
+            rxlifecycle_components  : 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     ]
 
     rxJava = [

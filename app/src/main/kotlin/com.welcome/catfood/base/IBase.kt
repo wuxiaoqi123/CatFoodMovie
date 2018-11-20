@@ -20,7 +20,4 @@ interface IBaseView {
 
 interface IBasePresenter {
 
-    fun attachView(mRootView: IBaseView)
-
-    fun detachView()
 }

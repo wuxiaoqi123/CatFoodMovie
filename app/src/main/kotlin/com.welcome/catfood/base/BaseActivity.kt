@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.ui.MultipleStatusView
 import com.welcome.catfood.util.LogUtil
@@ -22,7 +24,7 @@ import pub.devrel.easypermissions.EasyPermissions
  *     version: 1.0
  * </pre>
  */
-abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),
+abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
     EasyPermissions.PermissionCallbacks {
 
     protected var mLayoutStatusView: MultipleStatusView? = null
@@ -91,6 +93,10 @@ abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),
                 .build()
                 .show()
         }
+    }
+
+    open fun <T> bindToLife(): LifecycleTransformer<T> {
+        return bindUntilEvent(ActivityEvent.DESTROY)
     }
 
     override fun onDestroy() {

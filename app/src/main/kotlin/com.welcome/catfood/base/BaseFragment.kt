@@ -2,10 +2,12 @@ package com.welcome.catfood.base
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.android.FragmentEvent
+import com.trello.rxlifecycle2.components.support.RxFragment
 import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.ui.MultipleStatusView
 import com.welcome.catfood.util.LogUtil
@@ -21,7 +23,7 @@ import pub.devrel.easypermissions.EasyPermissions
  *     version: 1.0
  * </pre>
  */
-abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+abstract class BaseFragment : RxFragment(), EasyPermissions.PermissionCallbacks {
 
     private var isViewPrepare = false
 
@@ -96,5 +98,9 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 .build()
                 .show()
         }
+    }
+
+    open fun <T> bindToLife(): LifecycleTransformer<T> {
+        return bindUntilEvent(FragmentEvent.DESTROY)
     }
 }

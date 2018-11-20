@@ -44,11 +44,6 @@ dependencies {
     implementation rootProject.ext.otherLibs
     // APT dependencies(Kotlin内置的注解处理器)
     kapt rootProject.ext.annotationProcessorLibs
-
-    // 底部菜单
-    implementation('com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar') {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
     //kotlin 支持库
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //GlideOkHttp
