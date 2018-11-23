@@ -1,6 +1,5 @@
-package com.welcome.catfood.util
+package com.welcome.catfood.utils
 
-import android.content.Context
 import android.widget.Toast
 import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.config.Config

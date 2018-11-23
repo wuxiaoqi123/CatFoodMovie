@@ -19,5 +19,6 @@ class Config {
 
         const val TOAST_SHOW = true
 
+        const val BASE_URL = "http://baobab.kaiyanapp.com/api/"
     }
 }

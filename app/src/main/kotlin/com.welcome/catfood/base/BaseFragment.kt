@@ -10,7 +10,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent
 import com.trello.rxlifecycle2.components.support.RxFragment
 import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.ui.MultipleStatusView
-import com.welcome.catfood.util.LogUtil
+import com.welcome.catfood.utils.LogUtil
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 

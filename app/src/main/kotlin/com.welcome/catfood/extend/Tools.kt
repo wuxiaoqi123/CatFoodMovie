@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.view.View
-import com.welcome.catfood.util.ToastUtil
+import com.welcome.catfood.utils.ToastUtil
 
 /**
  * <pre>

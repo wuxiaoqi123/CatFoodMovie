@@ -1,4 +1,4 @@
-package com.welcome.catfood.util
+package com.welcome.catfood.utils
 
 import android.util.Log
 import com.welcome.catfood.config.Config
