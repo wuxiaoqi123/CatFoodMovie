@@ -1,5 +1,7 @@
 package com.welcome.catfood.base
 
+import com.trello.rxlifecycle2.LifecycleTransformer
+
 /**
  * <pre>
  *     author : wuxiaoqi
@@ -16,8 +18,15 @@ interface IBaseView {
     fun hideLoading()
 
     fun showErrMsg(errCode: Int = 0, errMsg: String = "")
+
+    fun <T> bindToLife(): LifecycleTransformer<T>
 }
 
 interface IBasePresenter {
 
+}
+
+interface IBaseModel {
+
+    fun cancel()
 }
