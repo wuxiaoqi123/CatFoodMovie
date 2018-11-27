@@ -24,6 +24,7 @@ interface IBaseView {
 
 interface IBasePresenter {
 
+    fun cancel()
 }
 
 interface IBaseModel {

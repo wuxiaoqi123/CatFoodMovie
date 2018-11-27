@@ -1,6 +1,9 @@
 package com.welcome.catfood.presenter
 
+import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.HomeContract
+import com.welcome.catfood.model.HomeModel
+import com.welcome.catfood.net.exception.ExceptionHandler
 
 /**
  * <pre>
@@ -12,21 +15,57 @@ import com.welcome.catfood.contract.HomeContract
  * </pre>
  */
 class HomePresenter(view: HomeContract.View) : HomeContract.Presenter {
-
     private val mView: HomeContract.View;
-
-    private var nextPageUrl: String? = null
-
-
 
     init {
         this.mView = view
     }
 
+    private var bannerHomeBean: HomeBean? = null
+
+    private var nextPageUrl: String? = null
+
+    private val homeModel: HomeModel by lazy { HomeModel(mView) }
+
     override fun loadHomeData(num: Int) {
+        mView.showLoading()
+        val subscribe = homeModel.loadHomeData(num)
+            .flatMap { homeBean ->
+                val bannerItemList = homeBean.issueList[0].itemList
+                bannerItemList.filter { item ->
+                    item.type == "banner2" || item.type == "horizontalScrollCard"
+                }.forEach { item ->
+                    bannerItemList.remove(item)
+                }
+                bannerHomeBean = homeBean
+                homeModel.loadMoreHomeData(homeBean.nextPageUrl)
+            }.subscribe({ homeBean ->
+                mView.apply {
+                    hideLoading()
+                    nextPageUrl = homeBean.nextPageUrl
+                    val newBannerItemList = homeBean.issueList[0].itemList
+                    newBannerItemList.filter { item ->
+                        item.type == "banner2" || item.type == "horizontalScrollCard"
+                    }.forEach { item ->
+                        newBannerItemList.remove(item)
+                    }
+                    bannerHomeBean!!.issueList[0].count = bannerHomeBean!!.issueList[0].itemList.size
+                    bannerHomeBean?.issueList!![0].itemList.addAll(newBannerItemList)
+                    setHomeData(bannerHomeBean!!)
+                }
+            }, { t ->
+                mView.apply {
+                    hideLoading()
+                    showErrMsg(ExceptionHandler.handleException(t).code, ExceptionHandler.handleException(t).message)
+                }
+            })
 
     }
 
     override fun loadMoreHomeData() {
+    }
+
+    override fun cancel() {
+        homeModel.cancel()
     }
 }
