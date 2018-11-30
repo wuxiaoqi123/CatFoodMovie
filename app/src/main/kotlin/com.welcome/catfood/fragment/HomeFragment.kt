@@ -1,9 +1,5 @@
 package com.welcome.catfood.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.HomeBean
@@ -20,6 +16,10 @@ import com.welcome.catfood.presenter.HomePresenter
  * </pre>
  */
 class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
+
+    private var mTitle: String? = null
+
+    private var num: Int = 1
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
