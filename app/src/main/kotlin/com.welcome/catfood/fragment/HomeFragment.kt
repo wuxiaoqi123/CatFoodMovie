@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
+import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.contract.HomeContract
+import com.welcome.catfood.presenter.HomePresenter
 
 /**
  * <pre>
@@ -16,7 +19,7 @@ import com.welcome.catfood.base.BaseFragment
  *     version: 1.0
  * </pre>
  */
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -25,6 +28,28 @@ class HomeFragment : BaseFragment() {
     override fun initView() {
     }
 
+    override fun getPresenter(): HomeContract.Presenter? {
+        return HomePresenter(this)
+    }
+
     override fun lazyLoad() {
+    }
+
+    override fun setHomeData(homeBean: HomeBean) {
+    }
+
+    override fun addHomeData(itemList: List<HomeBean.Issue.Item>) {
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
+
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
+
     }
 }

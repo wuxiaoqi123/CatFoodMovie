@@ -23,13 +23,15 @@ import pub.devrel.easypermissions.EasyPermissions
  *     version: 1.0
  * </pre>
  */
-abstract class BaseFragment : RxFragment(), EasyPermissions.PermissionCallbacks {
+abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.PermissionCallbacks {
 
     private var isViewPrepare = false
 
     private var hasLoadData = false
 
     protected var mLayoutStatusView: MultipleStatusView? = null
+
+    protected var presenterImp: T? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
@@ -48,6 +50,11 @@ abstract class BaseFragment : RxFragment(), EasyPermissions.PermissionCallbacks 
         initView()
         lazyLoadDataIfPrepared()
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)
+        presenterImp = getPresenter()
+    }
+
+    protected open fun getPresenter(): T? {
+        return null
     }
 
     private fun lazyLoadDataIfPrepared() {

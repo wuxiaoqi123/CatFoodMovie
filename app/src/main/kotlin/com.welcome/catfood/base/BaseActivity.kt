@@ -37,7 +37,7 @@ abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
         initData(intent);
         initView()
         initListener()
-        presenterImp = getPresenterImp()
+        presenterImp = getPresenter()
         startRequest()
     }
 
@@ -54,7 +54,7 @@ abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
         mLayoutStatusView?.setOnClickListener { startRequest() }
     }
 
-    protected open fun <P> getPresenterImp(): P? {
+    protected open fun getPresenter(): P? {
         return null
     }
 
