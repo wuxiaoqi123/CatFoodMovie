@@ -21,6 +21,7 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
 
     private var num: Int = 1
 
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
