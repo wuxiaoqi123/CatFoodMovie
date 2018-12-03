@@ -14,10 +14,10 @@ import android.view.ViewGroup
  *     version: 1.0
  * </pre>
  */
-abstract class CommonAdapter<T>(var context: Context, var mData: ArrayList<T>, private var mLayoutId: Int) :
+abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>, private var mLayoutId: Int) :
     RecyclerView.Adapter<ViewHolder>() {
 
-    protected var mInflater: LayoutInflater = LayoutInflater.from(context)
+    protected var mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private var mTypeSupport: MultipleType<T>? = null
 
     private var mItemClickListener: OnItemClickListener? = null

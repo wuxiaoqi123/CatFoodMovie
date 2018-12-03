@@ -9,7 +9,7 @@ package com.welcome.catfood.config
  *     version: 1.0
  * </pre>
  */
-class Config {
+class Config private constructor() {
 
     companion object {
 

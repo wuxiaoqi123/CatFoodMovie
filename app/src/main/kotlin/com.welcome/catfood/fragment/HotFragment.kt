@@ -2,6 +2,7 @@ package com.welcome.catfood.fragment
 
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
+import com.welcome.catfood.base.IBasePresenter
 
 /**
  * <pre>
@@ -12,7 +13,7 @@ import com.welcome.catfood.base.BaseFragment
  *     version: 1.0
  * </pre>
  */
-class HotFragment : BaseFragment() {
+class HotFragment : BaseFragment<IBasePresenter>() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_hot
