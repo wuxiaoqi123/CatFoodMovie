@@ -10,7 +10,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.welcome.catfood.MainActivity
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter

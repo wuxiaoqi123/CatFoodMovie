@@ -1,10 +1,11 @@
-package com.welcome.catfood
+package com.welcome.catfood.activity
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
 import com.welcome.catfood.extend.showToast
