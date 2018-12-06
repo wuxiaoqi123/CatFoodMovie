@@ -3,6 +3,7 @@ package com.welcome.catfood.extend
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.support.v4.app.Fragment
 import android.view.View
 import com.welcome.catfood.utils.ToastUtil
 
@@ -27,6 +28,10 @@ fun View.dp2px(value: Float): Float {
 }
 
 fun Context.showToast(msg: String) {
+    ToastUtil.show(msg)
+}
+
+fun Fragment.showToast(msg: String) {
     ToastUtil.show(msg)
 }
 

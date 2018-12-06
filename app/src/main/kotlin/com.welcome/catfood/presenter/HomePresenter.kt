@@ -59,7 +59,6 @@ class HomePresenter(view: HomeContract.View) : HomeContract.Presenter {
                     showErrMsg(ExceptionHandler.handleException(t).code, ExceptionHandler.handleException(t).message)
                 }
             })
-
     }
 
     override fun loadMoreHomeData() {

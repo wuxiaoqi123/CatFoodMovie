@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.welcome.catfood.R
 import com.welcome.catfood.activity.SearchActivity
@@ -11,6 +12,7 @@ import com.welcome.catfood.adapter.HomeAdapter
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.HomeContract
+import com.welcome.catfood.extend.showToast
 import com.welcome.catfood.presenter.HomePresenter
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -62,11 +64,18 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
             }
         })
         mHeaderSearchImg.setOnClickListener { openSearchActivity() }
+        mLayoutStatusView = mMultipleStatusView
     }
 
     private fun openSearchActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val options = activity?.let { ActivityOptionsCompat.makeSceneTransitionAnimation(it, mHeaderSearchImg, mHeaderSearchImg.transitionName) }
+            val options = activity?.let {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    it,
+                    mHeaderSearchImg,
+                    mHeaderSearchImg.transitionName
+                )
+            }
             startActivity(Intent(activity, SearchActivity::class.java), options?.toBundle())
         } else {
             startActivity(Intent(activity, SearchActivity::class.java))
@@ -78,6 +87,7 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun lazyLoad() {
+        presenterImp?.loadHomeData(num)
     }
 
     override fun setHomeData(homeBean: HomeBean) {
@@ -95,6 +105,6 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
-
+        showToast(errMsg)
     }
 }

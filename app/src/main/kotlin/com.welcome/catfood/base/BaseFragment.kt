@@ -2,6 +2,7 @@ package com.welcome.catfood.base
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.Nullable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,8 @@ import pub.devrel.easypermissions.EasyPermissions
  */
 abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.PermissionCallbacks {
 
+    private var rootView: View? = null
+
     private var isViewPrepare = false
 
     private var hasLoadData = false
@@ -33,8 +36,20 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.
 
     protected var presenterImp: T? = null
 
+    @Nullable
+    @Override
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutId(), container, false)
+        if (rootView != null) {
+            val parent = rootView?.parent as ViewGroup
+            parent.removeView(rootView)
+            return rootView
+        }
+        if (getLayoutId() == 0) throw RuntimeException("getLayoutId need to set up res")
+        rootView = inflater.inflate(getLayoutId(), container, false)
+        if (presenterImp == null) {
+            presenterImp = getPresenter()
+        }
+        return rootView
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -46,11 +61,10 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        isViewPrepare = true
         initView()
-        lazyLoadDataIfPrepared()
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)
-        presenterImp = getPresenter()
+        isViewPrepare = true
+        lazyLoadDataIfPrepared()
     }
 
     protected open fun getPresenter(): T? {

@@ -4,6 +4,7 @@ import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.config.Config
 import com.welcome.catfood.net.api.ApiService
 import com.welcome.catfood.utils.AppUtils
+import com.welcome.catfood.utils.LogUtil
 import com.welcome.catfood.utils.Preference
 import okhttp3.Cache
 import okhttp3.Interceptor
@@ -43,7 +44,11 @@ object RetrofitManager {
     }
 
     fun getOkHttpClient(): OkHttpClient {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String?) {
+                LogUtil.i(msg = "$message")
+            }
+        })
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val cacheFile = File(CatFoodApplication.context.cacheDir, "cache")
         val cache = Cache(cacheFile, 1024 * 1024 * 50)
