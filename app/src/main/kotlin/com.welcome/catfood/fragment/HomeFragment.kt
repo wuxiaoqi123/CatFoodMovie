@@ -3,8 +3,8 @@ package com.welcome.catfood.fragment
 import android.content.Intent
 import android.os.Build
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.welcome.catfood.R
 import com.welcome.catfood.activity.SearchActivity
@@ -91,6 +91,11 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun setHomeData(homeBean: HomeBean) {
+        mLayoutStatusView?.showContent()
+        mHomeAdapter = activity?.let { HomeAdapter(it, homeBean.issueList[0].itemList) }
+        mHomeAdapter?.setBannerSize(homeBean.issueList[0].count)
+        mRecyclerView.adapter = mHomeAdapter
+        mRecyclerView.itemAnimator = DefaultItemAnimator()
     }
 
     override fun addHomeData(itemList: List<HomeBean.Issue.Item>) {
