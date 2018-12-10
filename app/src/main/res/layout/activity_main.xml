@@ -17,14 +17,16 @@
         <android.support.v4.app.FragmentTabHost
             android:id="@android:id/tabhost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_above="@android:id/tabhost"
-            android:background="@color/color_gray" />
+            android:layout_margin="0dp"
+            android:background="@color/color_gray"
+            android:padding="0dp" />
 
     </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.welcome.catfood.activity
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -40,6 +41,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
         tabhost.addTab(hotTabSpec, HotFragment::class.java, null)
         tabhost.addTab(findTabSpec, FindFragment::class.java, null)
         tabhost.addTab(mineTabSpec, MineFragment::class.java, null)
+        tabhost.setBackgroundColor(Color.TRANSPARENT)
     }
 
     /**
