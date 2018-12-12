@@ -29,18 +29,19 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     private fun initTabs() {
         tabhost.setup(this, supportFragmentManager, R.id.main_content_fl)
         val homeTabSpec = tabhost.newTabSpec("home")
-            .setIndicator(buildIndicator("首页", R.drawable.selector_home_tab))
+                .setIndicator(buildIndicator("首页", R.drawable.selector_home_tab))
         val hotTabSpec = tabhost.newTabSpec("hot")
-            .setIndicator(buildIndicator("热门", R.drawable.selector_hot_tab))
+                .setIndicator(buildIndicator("热门", R.drawable.selector_hot_tab))
         val findTabSpec = tabhost.newTabSpec("find")
-            .setIndicator(buildIndicator("发现", R.drawable.selector_find_tab))
+                .setIndicator(buildIndicator("发现", R.drawable.selector_find_tab))
         val mineTabSpec = tabhost.newTabSpec("mine")
-            .setIndicator(buildIndicator("我的", R.drawable.selector_mine_tab))
+                .setIndicator(buildIndicator("我的", R.drawable.selector_mine_tab))
         tabhost.clearAllTabs()
         tabhost.addTab(homeTabSpec, HomeFragment::class.java, null)
         tabhost.addTab(hotTabSpec, HotFragment::class.java, null)
         tabhost.addTab(findTabSpec, FindFragment::class.java, null)
         tabhost.addTab(mineTabSpec, MineFragment::class.java, null)
+        tabhost.tabWidget.setDividerDrawable(android.R.color.transparent)
         tabhost.setBackgroundColor(Color.TRANSPARENT)
     }
 
