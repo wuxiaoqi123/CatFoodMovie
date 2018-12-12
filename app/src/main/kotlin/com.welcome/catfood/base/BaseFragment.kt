@@ -24,7 +24,8 @@ import pub.devrel.easypermissions.EasyPermissions
  *     version: 1.0
  * </pre>
  */
-abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.PermissionCallbacks {
+abstract class BaseFragment<T : IBasePresenter> : RxFragment(),
+    EasyPermissions.PermissionCallbacks {
 
     private var rootView: View? = null
 
@@ -38,12 +39,12 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.
 
     @Nullable
     @Override
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        if (rootView != null) {
-//            val parent = rootView?.parent as ViewGroup
-//            parent.removeView(rootView)
-//            return rootView
-//        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if (rootView != null) return rootView
         if (getLayoutId() == 0) throw RuntimeException("getLayoutId need to set up res")
         rootView = inflater.inflate(getLayoutId(), container, false)
         if (presenterImp == null) {
@@ -96,7 +97,11 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
@@ -113,11 +118,11 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(), EasyPermissions.
         sb.replace(sb.length - 2, sb.length, "")
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this)
-                    .setRationale("此功能需要${sb}权限，否则无法正常使用")
-                    .setPositiveButton("联同意")
-                    .setNegativeButton("托下去砍了")
-                    .build()
-                    .show()
+                .setRationale("此功能需要${sb}权限，否则无法正常使用")
+                .setPositiveButton("联同意")
+                .setNegativeButton("托下去砍了")
+                .build()
+                .show()
         }
     }
 
