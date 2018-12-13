@@ -58,14 +58,32 @@ class MultipleStatusView : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.MultipleStatusView, defStyleAttr, 0)
-        mEmptyViewResId = a.getResourceId(R.styleable.MultipleStatusView_emptyView, R.layout.multip_empty_view)
-        mErrorViewResId = a.getResourceId(R.styleable.MultipleStatusView_errorView, R.layout.multip_error_view)
-        mLoadingViewResId = a.getResourceId(R.styleable.MultipleStatusView_loadingView, R.layout.multip_loading_view)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        val a =
+            context.obtainStyledAttributes(attrs, R.styleable.MultipleStatusView, defStyleAttr, 0)
+        mEmptyViewResId = a.getResourceId(
+            R.styleable.MultipleStatusView_emptyView,
+            R.layout.multip_empty_view
+        )
+        mErrorViewResId = a.getResourceId(
+            R.styleable.MultipleStatusView_errorView,
+            R.layout.multip_error_view
+        )
+        mLoadingViewResId = a.getResourceId(
+            R.styleable.MultipleStatusView_loadingView,
+            R.layout.multip_loading_view
+        )
         mNoNetworkViewResId =
-                a.getResourceId(R.styleable.MultipleStatusView_noNetworkView, R.layout.multip_no_network_view)
-        mContentViewResId = a.getResourceId(R.styleable.MultipleStatusView_contentView, NULL_RESOURCE_ID)
+                a.getResourceId(
+                    R.styleable.MultipleStatusView_noNetworkView,
+                    R.layout.multip_no_network_view
+                )
+        mContentViewResId =
+                a.getResourceId(R.styleable.MultipleStatusView_contentView, NULL_RESOURCE_ID)
         a.recycle()
         mInflater = LayoutInflater.from(context)
     }
@@ -83,7 +101,10 @@ class MultipleStatusView : RelativeLayout {
         mInflater = null
     }
 
-    fun showEmpty(layoutId: Int? = mEmptyViewResId, lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS) {
+    fun showEmpty(
+        layoutId: Int? = mEmptyViewResId,
+        lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS
+    ) {
         showEmpty(inflateView(layoutId!!), lp)
     }
 
@@ -101,7 +122,10 @@ class MultipleStatusView : RelativeLayout {
         } ?: throw NullPointerException("Empty view is null")
     }
 
-    fun showError(layoutId: Int? = mErrorViewResId, lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS) {
+    fun showError(
+        layoutId: Int? = mErrorViewResId,
+        lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS
+    ) {
         showError(inflateView(layoutId!!), lp)
     }
 
@@ -119,7 +143,10 @@ class MultipleStatusView : RelativeLayout {
         } ?: throw NullPointerException("Error view is null")
     }
 
-    fun showLoading(layoutId: Int? = mLoadingViewResId, lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS) {
+    fun showLoading(
+        layoutId: Int? = mLoadingViewResId,
+        lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS
+    ) {
         showLoading(inflateView(layoutId!!), lp)
     }
 
@@ -136,7 +163,7 @@ class MultipleStatusView : RelativeLayout {
     }
 
     fun showViewById(id: Int) {
-        for (i in 0..childCount) {
+        for (i in 0..childCount - 1) {
             if (getChildAt(i).id == id) {
                 getChildAt(i).visibility = View.VISIBLE
             } else {
@@ -145,7 +172,10 @@ class MultipleStatusView : RelativeLayout {
         }
     }
 
-    fun showNoNetwork(layoutId: Int? = mNoNetworkViewResId, lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS) {
+    fun showNoNetwork(
+        layoutId: Int? = mNoNetworkViewResId,
+        lp: ViewGroup.LayoutParams = DEFAULT_LAYOUT_PARAMS
+    ) {
         showNoNetwork(inflateView(layoutId!!), lp)
     }
 

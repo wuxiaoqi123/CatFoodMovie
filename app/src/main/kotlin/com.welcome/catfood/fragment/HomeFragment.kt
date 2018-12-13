@@ -13,6 +13,7 @@ import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.HomeContract
 import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.HomePresenter
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -106,10 +107,15 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun hideLoading() {
-
+        mRefreshLayout.finishRefresh()
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
         showToast(errMsg)
+        if (errCode == ExceptionHandler.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 }
