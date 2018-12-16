@@ -93,13 +93,14 @@ class MultipleStatusView : RelativeLayout {
         showContent()
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView)
-        mOtherIds.clear()
-        mOnRetryClickListener = null
-        mInflater = null
-    }
+//    override fun onDetachedFromWindow() {
+//        super.onDetachedFromWindow()
+//        Log.i("wxq", "执行onDetachedFromWindow")
+//        clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView)
+//        mOtherIds.clear()
+//        mOnRetryClickListener = null
+//        mInflater = null
+//    }
 
     fun showEmpty(
         layoutId: Int? = mEmptyViewResId,
