@@ -19,7 +19,7 @@ interface HomeContract {
 
         fun setHomeData(homeBean: HomeBean)
 
-        fun addHomeData(itemList: List<HomeBean.Issue.Item>)
+        fun addHomeData(itemList: ArrayList<HomeBean.Issue.Item>)
     }
 
     interface Presenter : IBasePresenter {

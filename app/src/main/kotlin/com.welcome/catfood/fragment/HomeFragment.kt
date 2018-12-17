@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.welcome.catfood.R
@@ -57,7 +58,18 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val childCount = mRecyclerView.childCount
+                    val itemCount = mRecyclerView.layoutManager.itemCount
+                    val firstVisibleItem =
+                        (mRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (firstVisibleItem + childCount == itemCount) {
+                        if (!loadingMore) {
+                            loadingMore = true
+                            presenterImp?.loadMoreHomeData()
+                        }
+                    }
+                }
             }
 
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -92,6 +104,7 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun setHomeData(homeBean: HomeBean) {
+        isRefresh = false
         mLayoutStatusView?.showContent()
         mHomeAdapter = activity?.let { HomeAdapter(it, homeBean.issueList[0].itemList) }
         mHomeAdapter?.setBannerSize(homeBean.issueList[0].count)
@@ -99,11 +112,16 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
         mRecyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    override fun addHomeData(itemList: List<HomeBean.Issue.Item>) {
+    override fun addHomeData(itemList: ArrayList<HomeBean.Issue.Item>) {
+        loadingMore = false
+        mHomeAdapter?.addItemData(itemList)
     }
 
     override fun showLoading() {
-
+        if (!isRefresh) {
+            isRefresh = false
+            mLayoutStatusView?.showLoading()
+        }
     }
 
     override fun hideLoading() {
