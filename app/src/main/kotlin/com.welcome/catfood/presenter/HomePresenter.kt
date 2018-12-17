@@ -49,19 +49,45 @@ class HomePresenter(view: HomeContract.View) : HomeContract.Presenter {
                     }.forEach { item ->
                         newBannerItemList.remove(item)
                     }
-                    bannerHomeBean!!.issueList[0].count = bannerHomeBean!!.issueList[0].itemList.size
+                    bannerHomeBean!!.issueList[0].count =
+                            bannerHomeBean!!.issueList[0].itemList.size
                     bannerHomeBean?.issueList!![0].itemList.addAll(newBannerItemList)
                     setHomeData(bannerHomeBean!!)
                 }
             }, { t ->
                 mView.apply {
                     hideLoading()
-                    showErrMsg(ExceptionHandler.handleException(t).code, ExceptionHandler.handleException(t).message)
+                    showErrMsg(
+                        ExceptionHandler.handleException(t).code,
+                        ExceptionHandler.handleException(t).message
+                    )
                 }
             })
     }
 
     override fun loadMoreHomeData() {
+        val disposable = nextPageUrl?.let {
+            homeModel.loadMoreHomeData(it)
+                .subscribe({ homeBean ->
+                    mView.apply {
+                        val newItemList = homeBean.issueList[0].itemList
+                        newItemList.filter { item ->
+                            item.type == "banner2" || item.type == "horizontalScrollCard"
+                        }.forEach { item ->
+                            newItemList.remove(item)
+                        }
+                        nextPageUrl = homeBean.nextPageUrl
+                        hideLoading()
+                        addHomeData(newItemList)
+                    }
+                }, { t ->
+                    mView.apply {
+                        hideLoading()
+                        val ex = ExceptionHandler.handleException(t)
+                        showErrMsg(ex.code, ex.message)
+                    }
+                })
+        }
     }
 
     override fun cancel() {
