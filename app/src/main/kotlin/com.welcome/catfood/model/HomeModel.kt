@@ -4,8 +4,12 @@ import com.welcome.catfood.base.BaseModel
 import com.welcome.catfood.base.IBaseView
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.net.RetrofitManager
+import com.welcome.catfood.net.callback.RxObserver
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -19,15 +23,83 @@ import io.reactivex.schedulers.Schedulers
  */
 class HomeModel(view: IBaseView) : BaseModel(view) {
 
-    fun loadHomeData(num: Int): Observable<HomeBean> =
+
+    private var nextPageUrl: String? = null
+
+    fun loadHomeData(num: Int, callback: CallbackLoad) {
         RetrofitManager.service.getHomeData(num)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .compose(mView.bindToLife())
+            .flatMap(object : Function<HomeBean, ObservableSource<HomeBean>> {
+                override fun apply(t: HomeBean): ObservableSource<HomeBean> {
+                    val bannerItemList = t.issueList[0].itemList
+                    bannerItemList.filter { item ->
+                        item.type == "banner2" || item.type == "horizontalScrollCard"
+                    }.forEach { item ->
+                        bannerItemList.remove(item)
+                    }
+                    return Observable.just(t)
+                }
+            })
+            .subscribe(
+                object : RxObserver<HomeBean>() {
+                    override fun onSubscribe(d: Disposable) {
+                        mDisposable = d
+                    }
 
-    fun loadMoreHomeData(url: String) =
-        RetrofitManager.service.getHomeMoreData(url)
+                    override fun onFail(code: Int, message: String) {
+                        callback.fail(code, message)
+                    }
+
+                    override fun onSuccess(t: HomeBean) {
+                        nextPageUrl = t.nextPageUrl
+                        callback.success(t)
+                    }
+                })
+    }
+
+    fun loadMoreHomeData(callback: CallbackLoadMore) {
+        RetrofitManager.service.getHomeMoreData(nextPageUrl!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .compose(mView.bindToLife())
+            .flatMap(object : Function<HomeBean, ObservableSource<ArrayList<HomeBean.Issue.Item>>> {
+                override fun apply(t: HomeBean): ObservableSource<ArrayList<HomeBean.Issue.Item>> {
+                    val newItemList = t.issueList[0].itemList
+                    newItemList.filter { item ->
+                        item.type == "banner2" || item.type == "horizontalScrollCard"
+                    }.forEach { item ->
+                        newItemList.remove(item)
+                    }
+                    nextPageUrl = t.nextPageUrl
+                    return Observable.just(newItemList)
+                }
+            })
+            .subscribe(object : RxObserver<ArrayList<HomeBean.Issue.Item>>() {
+                override fun onSubscribe(d: Disposable) {
+                    mDisposable = d
+                }
+
+                override fun onFail(code: Int, message: String) {
+                    callback.fail(code, message)
+                }
+
+                override fun onSuccess(t: ArrayList<HomeBean.Issue.Item>) {
+                    callback.success(t)
+                }
+            })
+    }
+
+    interface CallbackLoad {
+        fun success(t: HomeBean)
+
+        fun fail(code: Int, message: String)
+    }
+
+    interface CallbackLoadMore {
+        fun success(t: ArrayList<HomeBean.Issue.Item>)
+
+        fun fail(code: Int, message: String)
+    }
 }
