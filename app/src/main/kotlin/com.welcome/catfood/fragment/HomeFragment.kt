@@ -17,6 +17,8 @@ import com.welcome.catfood.extend.showToast
 import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.HomePresenter
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * <pre>
@@ -28,8 +30,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * </pre>
  */
 class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
-
-    private var mTitle: String? = null
 
     private var num: Int = 1
 
@@ -74,10 +74,30 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
 
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                val currentVisiblePosition =
+                    (mRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                if (currentVisiblePosition == 0) {
+
+                } else {
+
+                }
+                if (mHomeAdapter?.mData!!.size > 1) {
+                    val itemList = mHomeAdapter!!.mData
+                    val item = itemList[currentVisiblePosition + mHomeAdapter!!.bannerItemSize - 1]
+                    if (item.type == "textHeader") {
+                        mHeaderTitleTv.text = item.data?.text
+                    } else {
+                        mHeaderTitleTv.text = simpleDateFormat.format(item.data?.date)
+                    }
+                }
             }
         })
         mHeaderSearchImg.setOnClickListener { openSearchActivity() }
         mLayoutStatusView = mMultipleStatusView
+    }
+
+    private val simpleDateFormat by lazy {
+        SimpleDateFormat("- MMM. dd, 'Brunch' -", Locale.ENGLISH)
     }
 
     private fun openSearchActivity() {

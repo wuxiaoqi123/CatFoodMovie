@@ -15,5 +15,5 @@
         app:banner_pointAutoPlayInterval="4000"
         app:banner_tipTextColor="#CCFFFFFF"
         app:banner_tipTextSize="16sp"
-        app:banner_transitionEffect="alpha" />
+        app:banner_transitionEffect="rotate" />
 </LinearLayout>
