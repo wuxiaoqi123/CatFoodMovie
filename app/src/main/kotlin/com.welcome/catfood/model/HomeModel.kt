@@ -39,6 +39,7 @@ class HomeModel(view: IBaseView) : BaseModel(view) {
                     }.forEach { item ->
                         bannerItemList.remove(item)
                     }
+                    t.issueList[0].count = t.issueList[0].itemList.size
                     return Observable.just(t)
                 }
             })
