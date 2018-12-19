@@ -145,7 +145,7 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
     }
 
     override fun hideLoading() {
-        mRefreshLayout.finishRefresh()
+        mRefreshLayout?.finishRefresh()
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
