@@ -1,5 +1,6 @@
 package com.welcome.catfood.utils
 
+import android.view.Gravity
 import android.widget.Toast
 import com.welcome.catfood.app.CatFoodApplication
 import com.welcome.catfood.config.Config
@@ -19,5 +20,13 @@ object ToastUtil {
 
     fun show(text: String, duration: Int = Toast.LENGTH_SHORT) {
         if (show) Toast.makeText(CatFoodApplication.context, text, duration).show()
+    }
+
+    fun showCenter(text: String, duration: Int = Toast.LENGTH_SHORT) {
+        if (show) {
+            val makeText = Toast.makeText(CatFoodApplication.context, text, duration)
+            makeText.setGravity(Gravity.CENTER, 0, 0)
+            makeText.show()
+        }
     }
 }

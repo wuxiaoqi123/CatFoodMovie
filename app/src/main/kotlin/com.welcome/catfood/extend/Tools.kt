@@ -31,6 +31,10 @@ fun Context.showToast(msg: String) {
     ToastUtil.show(msg)
 }
 
+fun Context.showToastCenter(msg: String) {
+    ToastUtil.showCenter(msg)
+}
+
 fun Fragment.showToast(msg: String) {
     ToastUtil.show(msg)
 }
