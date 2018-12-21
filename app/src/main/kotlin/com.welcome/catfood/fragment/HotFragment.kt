@@ -2,7 +2,9 @@ package com.welcome.catfood.fragment
 
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
-import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.bean.TabInfoBean
+import com.welcome.catfood.contract.HotContract
+import com.welcome.catfood.presenter.HotPresenter
 
 /**
  * <pre>
@@ -13,7 +15,7 @@ import com.welcome.catfood.base.IBasePresenter
  *     version: 1.0
  * </pre>
  */
-class HotFragment : BaseFragment<IBasePresenter>() {
+class HotFragment : BaseFragment<HotContract.Presenter>(), HotContract.View {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_hot
@@ -22,6 +24,21 @@ class HotFragment : BaseFragment<IBasePresenter>() {
     override fun initView() {
     }
 
+    override fun getPresenter(): HotContract.Presenter? = HotPresenter(this)
+
     override fun lazyLoad() {
+        presenterImp?.loadTabInfo()
+    }
+
+    override fun setTabInfo(tabInfoBean: TabInfoBean) {
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
     }
 }

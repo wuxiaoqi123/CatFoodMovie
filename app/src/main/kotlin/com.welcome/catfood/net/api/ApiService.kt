@@ -1,6 +1,7 @@
 package com.welcome.catfood.net.api
 
 import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.bean.TabInfoBean
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -28,4 +29,10 @@ interface ApiService {
      */
     @GET
     fun getHomeMoreData(@Url url: String): Observable<HomeBean>
+
+    /**
+     * 排行榜
+     */
+    @GET("v4/rankList")
+    fun getRankList(): Observable<TabInfoBean>
 }
