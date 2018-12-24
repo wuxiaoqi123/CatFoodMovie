@@ -4,7 +4,11 @@ import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.TabInfoBean
 import com.welcome.catfood.contract.HotContract
+import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.HotPresenter
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_hot.*
 
 /**
  * <pre>
@@ -17,11 +21,10 @@ import com.welcome.catfood.presenter.HotPresenter
  */
 class HotFragment : BaseFragment<HotContract.Presenter>(), HotContract.View {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_hot
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_hot
 
     override fun initView() {
+        mLayoutStatusView = multipleStatusView
     }
 
     override fun getPresenter(): HotContract.Presenter? = HotPresenter(this)
@@ -34,11 +37,19 @@ class HotFragment : BaseFragment<HotContract.Presenter>(), HotContract.View {
     }
 
     override fun showLoading() {
+        mLayoutStatusView?.showLoading()
     }
 
     override fun hideLoading() {
+        mLayoutStatusView?.showContent()
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
+        showToast(errMsg)
+        if (errCode == ExceptionHandler.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 }

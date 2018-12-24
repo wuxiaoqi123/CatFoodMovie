@@ -41,9 +41,7 @@ class HomeFragment : BaseFragment<HomeContract.Presenter>(), HomeContract.View {
 
     private var mMaterialHeader: MaterialHeader? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_home
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_home
 
     override fun initView() {
         mRefreshLayout.setEnableHeaderTranslationContent(true)

@@ -10,8 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/mToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white">
+        android:layout_height="?attr/actionBarSize">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,7 +45,7 @@
         android:layout_height="0.5dp"
         android:background="@color/color_light_black" />
 
-    <com.welcome.catfood.ui.MultipleStatusView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.welcome.catfood.ui.MultipleStatusView
         android:id="@+id/multipleStatusView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
