@@ -35,4 +35,10 @@ interface ApiService {
      */
     @GET("v4/rankList")
     fun getRankList(): Observable<TabInfoBean>
+
+    /**
+     * 获取更多的issue
+     */
+    @GET()
+    fun getIssueData(@Url url: String): Observable<HomeBean.Issue>
 }
