@@ -1,5 +1,6 @@
 package com.welcome.catfood.fragment
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
@@ -16,9 +17,15 @@ import com.welcome.catfood.base.IBasePresenter
  */
 class HotChildFragment : BaseFragment<IBasePresenter>() {
 
+    private var apiUrl: String? = null
+
     companion object {
-        fun getInstance(): Fragment {
-            return HotChildFragment()
+        fun getInstance(apiUrl: String): Fragment {
+            val fragment = HotChildFragment()
+            val bundle = Bundle()
+            fragment.arguments = bundle
+            fragment.apiUrl = apiUrl
+            return fragment
         }
     }
 

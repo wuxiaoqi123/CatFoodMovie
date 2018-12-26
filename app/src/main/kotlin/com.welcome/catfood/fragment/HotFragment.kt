@@ -39,7 +39,7 @@ class HotFragment : BaseFragment<HotContract.Presenter>(), HotContract.View {
 
     override fun setTabInfo(tabInfoBean: TabInfoBean) {
         tabInfoBean.tabInfo.tabList.mapTo(mTabTitleList) { it.name }
-        tabInfoBean.tabInfo.tabList.mapTo(mFragmentList) { HotChildFragment.getInstance() }
+        tabInfoBean.tabInfo.tabList.mapTo(mFragmentList) { HotChildFragment.getInstance(it.apiUrl) }
         mViewPager.adapter =
                 HotChildFragmentAdapter(childFragmentManager, mFragmentList, mTabTitleList)
         mTabLayout.setupWithViewPager(mViewPager)
