@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+        <item name="colorAccent">#ffffff</item>
     </style>
 
     <style name="FullTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -14,7 +14,8 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="MultipleStatusView"/>
+    <style name="MultipleStatusView" />
+
     <style name="MultipleStatusView.Content">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -25,8 +26,8 @@
     </style>
 
     <declare-styleable name="RealtimeBlurView">
-        <attr format="dimension" name="realtimeBlurRadius"/>
-        <attr format="float" name="realtimeDownsampleFactor"/>
-        <attr format="color" name="realtimeOverlayColor"/>
+        <attr name="realtimeBlurRadius" format="dimension" />
+        <attr name="realtimeDownsampleFactor" format="float" />
+        <attr name="realtimeOverlayColor" format="color" />
     </declare-styleable>
 </resources>
