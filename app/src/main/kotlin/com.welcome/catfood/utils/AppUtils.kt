@@ -1,5 +1,6 @@
 package com.welcome.catfood.utils
 
+import android.content.res.Resources
 import android.os.Build
 
 /**
@@ -23,6 +24,11 @@ class AppUtils private constructor() {
             var model: String? = Build.MODEL
             model = model?.trim { it <= ' ' } ?: ""
             return model
+        }
+
+        fun dp2px(value: Float): Float {
+            val density = Resources.getSystem().displayMetrics.density
+            return (value * density + 0.5f)
         }
     }
 }

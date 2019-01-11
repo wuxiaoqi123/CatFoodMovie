@@ -5,6 +5,7 @@ import com.welcome.catfood.R
 import com.welcome.catfood.adapter.HotChildFragmentAdapter
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.utils.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_find.*
 
 /**
@@ -31,9 +32,9 @@ class FindFragment : BaseFragment<IBasePresenter>() {
         mViewPager.adapter =
                 HotChildFragmentAdapter(childFragmentManager, tabFragmentList, tabTitleList)
         mTabLayout.setupWithViewPager(mViewPager)
+        TabLayoutHelper.setUpIndicorWidth(mTabLayout)
     }
 
     override fun lazyLoad() {
     }
-
 }
