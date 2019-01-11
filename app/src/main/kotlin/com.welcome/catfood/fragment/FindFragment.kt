@@ -1,8 +1,11 @@
 package com.welcome.catfood.fragment
 
+import android.support.v4.app.Fragment
 import com.welcome.catfood.R
+import com.welcome.catfood.adapter.HotChildFragmentAdapter
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.base.IBasePresenter
+import kotlinx.android.synthetic.main.fragment_find.*
 
 /**
  * <pre>
@@ -15,13 +18,22 @@ import com.welcome.catfood.base.IBasePresenter
  */
 class FindFragment : BaseFragment<IBasePresenter>() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_find
-    }
+    private val tabTitleList = ArrayList<String>()
+    private val tabFragmentList = ArrayList<Fragment>()
+
+    override fun getLayoutId(): Int = R.layout.fragment_find
 
     override fun initView() {
+        tabTitleList.add("关注")
+        tabTitleList.add("分类")
+        tabFragmentList.add(FollowFragment.getInstance("关注"))
+        tabFragmentList.add(CategoryFragment.getInstance("分类"))
+        mViewPager.adapter =
+                HotChildFragmentAdapter(childFragmentManager, tabFragmentList, tabTitleList)
+        mTabLayout.setupWithViewPager(mViewPager)
     }
 
     override fun lazyLoad() {
     }
+
 }

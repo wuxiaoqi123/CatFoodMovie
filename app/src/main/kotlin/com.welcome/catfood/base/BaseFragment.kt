@@ -62,10 +62,12 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        mLayoutStatusView?.mOnRetryClickListener = mRetryClickListener
-        isViewPrepare = true
-        lazyLoadDataIfPrepared()
+        if (!isViewPrepare) {
+            initView()
+            mLayoutStatusView?.mOnRetryClickListener = mRetryClickListener
+            isViewPrepare = true
+            lazyLoadDataIfPrepared()
+        }
     }
 
     protected open fun getPresenter(): T? {

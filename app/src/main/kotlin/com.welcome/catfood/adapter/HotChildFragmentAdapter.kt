@@ -15,8 +15,8 @@ import android.support.v4.app.FragmentPagerAdapter
  */
 class HotChildFragmentAdapter(
     fm: FragmentManager,
-    private var fragmentList: List<Fragment>,
-    mTitles: List<String>
+    private var fragmentList: ArrayList<Fragment>,
+    mTitles: ArrayList<String>
 ) : FragmentPagerAdapter(fm) {
 
     private var mTitles: List<String>? = mTitles

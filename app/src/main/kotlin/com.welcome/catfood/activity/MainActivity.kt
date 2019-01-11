@@ -70,5 +70,6 @@ class MainActivity : BaseActivity<IBasePresenter>() {
             mExitTime = System.currentTimeMillis()
             showToastCenter("再按一次关闭App")
         }
+//        moveTaskToBack(true)
     }
 }
