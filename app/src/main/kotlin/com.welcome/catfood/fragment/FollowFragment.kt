@@ -2,12 +2,15 @@ package com.welcome.catfood.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.FollowContract
 import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.FollowPresenter
 import kotlinx.android.synthetic.main.fragment_follow.*
 
@@ -35,10 +38,24 @@ class FollowFragment : BaseFragment<FollowContract.Presenter>(), FollowContract.
         }
     }
 
+    private var loadingMore = false
+
     override fun getLayoutId(): Int = R.layout.fragment_follow
 
     override fun initView() {
         mLayoutStatusView = multipleStatusView
+        mRecyclerView.layoutManager = LinearLayoutManager(activity)
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                val itemCount = mRecyclerView.layoutManager.itemCount
+                val lastVisibleItem =
+                    (mRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (!loadingMore && lastVisibleItem == (itemCount - 1)) {
+                    loadingMore = true
+                    presenterImp?.loadMoreData()
+                }
+            }
+        })
     }
 
     override fun getPresenter(): FollowContract.Presenter? = FollowPresenter(this)
@@ -52,14 +69,19 @@ class FollowFragment : BaseFragment<FollowContract.Presenter>(), FollowContract.
     }
 
     override fun showLoading() {
-
+        mLayoutStatusView?.showLoading()
     }
 
     override fun hideLoading() {
-
+        mLayoutStatusView?.showContent()
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
         showToast(errMsg)
+        if (errCode == ExceptionHandler.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 }
