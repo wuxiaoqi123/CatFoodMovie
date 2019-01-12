@@ -2,9 +2,14 @@ package com.welcome.catfood.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
-import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.contract.FollowContract
+import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.presenter.FollowPresenter
+import kotlinx.android.synthetic.main.fragment_follow.*
 
 /**
  * <pre>
@@ -15,7 +20,7 @@ import com.welcome.catfood.base.IBasePresenter
  *     version: 1.0
  * </pre>
  */
-class FollowFragment : BaseFragment<IBasePresenter>() {
+class FollowFragment : BaseFragment<FollowContract.Presenter>(), FollowContract.View {
 
     companion object {
 
@@ -33,8 +38,28 @@ class FollowFragment : BaseFragment<IBasePresenter>() {
     override fun getLayoutId(): Int = R.layout.fragment_follow
 
     override fun initView() {
+        mLayoutStatusView = multipleStatusView
     }
 
+    override fun getPresenter(): FollowContract.Presenter? = FollowPresenter(this)
+
     override fun lazyLoad() {
+        presenterImp?.loadData()
+    }
+
+    override fun setFollowInfo(data: HomeBean.Issue) {
+        Log.i("wxq", "加载成功")
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
+
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
+        showToast(errMsg)
     }
 }
