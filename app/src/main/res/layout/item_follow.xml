@@ -17,6 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:contentDescription="@null"
             tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout
@@ -53,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/btn_radius_black_border_bg"
             android:paddingStart="5dp"
             android:paddingTop="3dp"

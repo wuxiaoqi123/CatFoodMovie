@@ -62,5 +62,10 @@ class FollowAdapter(context: Context, dataList: ArrayList<HomeBean.Issue.Item>) 
         val recyclerView = holder.getView<RecyclerView>(R.id.fl_recyclerView)
         recyclerView.layoutManager =
                 LinearLayoutManager(mContext as Activity, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = FollowHorizontalAdapter(
+            mContext,
+            data.data.itemList,
+            R.layout.item_follow_horizontal
+        )
     }
 }
