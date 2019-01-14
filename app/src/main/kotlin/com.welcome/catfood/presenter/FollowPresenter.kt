@@ -33,15 +33,15 @@ class FollowPresenter(private val mView: FollowContract.View) : FollowContract.P
     }
 
     override fun loadMoreData() {
-        mView.showLoading()
+//        mView.showLoading()
         followModel.loadMoreData(object : FollowModel.CallbackLoad {
             override fun success(t: HomeBean.Issue) {
-                mView.hideLoading()
+//                mView.hideLoading()
                 mView.setFollowInfo(t)
             }
 
             override fun fail(code: Int, message: String) {
-                mView.hideLoading()
+//                mView.hideLoading()
                 mView.showErrMsg(code, message)
             }
         })

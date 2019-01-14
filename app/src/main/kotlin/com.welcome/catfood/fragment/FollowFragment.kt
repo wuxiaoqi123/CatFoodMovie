@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.welcome.catfood.R
+import com.welcome.catfood.adapter.FollowAdapter
 import com.welcome.catfood.base.BaseFragment
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.FollowContract
@@ -38,13 +38,18 @@ class FollowFragment : BaseFragment<FollowContract.Presenter>(), FollowContract.
         }
     }
 
+    private var itemList = ArrayList<HomeBean.Issue.Item>()
+
     private var loadingMore = false
+
+    private val mAdapter by lazy { activity?.let { FollowAdapter(it, itemList) } }
 
     override fun getLayoutId(): Int = R.layout.fragment_follow
 
     override fun initView() {
         mLayoutStatusView = multipleStatusView
         mRecyclerView.layoutManager = LinearLayoutManager(activity)
+        mRecyclerView.adapter = mAdapter
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 val itemCount = mRecyclerView.layoutManager.itemCount
@@ -65,7 +70,9 @@ class FollowFragment : BaseFragment<FollowContract.Presenter>(), FollowContract.
     }
 
     override fun setFollowInfo(data: HomeBean.Issue) {
-        Log.i("wxq", "加载成功")
+        loadingMore = false
+        itemList = data.itemList
+        mAdapter?.addData(itemList)
     }
 
     override fun showLoading() {
