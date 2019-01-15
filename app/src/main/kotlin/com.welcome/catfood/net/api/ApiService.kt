@@ -1,5 +1,6 @@
 package com.welcome.catfood.net.api
 
+import com.welcome.catfood.bean.CategoryBean
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.bean.TabInfoBean
 import io.reactivex.Observable
@@ -47,4 +48,10 @@ interface ApiService {
      */
     @GET("v4/tabs/follow")
     fun getFollowInfo(): Observable<HomeBean.Issue>
+
+    /**
+     * 获取分类
+     */
+    @GET("v4/categories")
+    fun getCategory(): Observable<ArrayList<CategoryBean>>
 }

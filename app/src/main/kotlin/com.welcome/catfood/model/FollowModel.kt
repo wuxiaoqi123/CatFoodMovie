@@ -26,6 +26,7 @@ class FollowModel(view: IBaseView) : BaseModel(view) {
         RetrofitManager.service.getFollowInfo()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .compose(mView.bindToLife())
             .subscribe(object : RxObserver<HomeBean.Issue>() {
 
                 override fun onSubscribe(d: Disposable) {

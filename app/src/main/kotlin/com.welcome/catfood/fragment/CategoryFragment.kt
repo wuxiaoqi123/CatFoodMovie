@@ -2,9 +2,15 @@ package com.welcome.catfood.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseFragment
-import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.bean.CategoryBean
+import com.welcome.catfood.contract.CategoryContract
+import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.net.exception.ExceptionHandler
+import com.welcome.catfood.presenter.CategoryPresenter
+import kotlinx.android.synthetic.main.fragment_category.*
 
 /**
  * <pre>
@@ -15,7 +21,7 @@ import com.welcome.catfood.base.IBasePresenter
  *     version: 1.0
  * </pre>
  */
-class CategoryFragment : BaseFragment<IBasePresenter>() {
+class CategoryFragment : BaseFragment<CategoryContract.Presenter>(), CategoryContract.View {
 
     companion object {
         val KEY_TITLE = "key_title"
@@ -32,8 +38,33 @@ class CategoryFragment : BaseFragment<IBasePresenter>() {
     override fun getLayoutId(): Int = R.layout.fragment_category
 
     override fun initView() {
+        mLayoutStatusView = multipleStatusView
     }
 
+    override fun getPresenter(): CategoryContract.Presenter? = CategoryPresenter(this)
+
     override fun lazyLoad() {
+        presenterImp?.getCategoryData()
+    }
+
+    override fun addCategoryData(categoryList: ArrayList<CategoryBean>) {
+        Log.i("wxq", "加载成功")
+    }
+
+    override fun showLoading() {
+        mLayoutStatusView?.showLoading()
+    }
+
+    override fun hideLoading() {
+        mLayoutStatusView?.showContent()
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
+        showToast(errMsg)
+        if (errCode == ExceptionHandler.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 }
