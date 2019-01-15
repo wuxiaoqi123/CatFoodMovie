@@ -51,6 +51,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!-- 分类详情页 -->
+        <activity
+            android:name=".activity.CategoryDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
