@@ -68,4 +68,5 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     //运行时权限
     implementation'pub.devrel:easypermissions:1.2.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
