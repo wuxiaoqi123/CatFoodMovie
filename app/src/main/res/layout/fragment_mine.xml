@@ -23,8 +23,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
+                android:contentDescription="@null"
                 android:src="@mipmap/ic_about" />
-
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
