@@ -1,5 +1,6 @@
 package com.welcome.catfood.utils
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 
@@ -29,6 +30,13 @@ class AppUtils private constructor() {
         fun dp2px(value: Float): Float {
             val density = Resources.getSystem().displayMetrics.density
             return (value * density + 0.5f)
+        }
+
+        fun getVersionName(context: Context): String {
+            return with(context) {
+                val packageInfo = packageManager.getPackageInfo(packageName, 0)
+                packageInfo.versionName
+            }
         }
     }
 }
