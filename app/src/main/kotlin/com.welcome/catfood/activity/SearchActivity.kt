@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.utils.ViewAnimUtils
 import kotlinx.android.synthetic.main.activity_search.*
 
 /**
@@ -47,6 +48,7 @@ class SearchActivity : BaseActivity<IBasePresenter>() {
         transition.addListener(object : Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition) {
                 transition.removeListener(this)
+                animateRevealShow()
             }
 
             override fun onTransitionResume(transition: Transition?) {
@@ -70,7 +72,37 @@ class SearchActivity : BaseActivity<IBasePresenter>() {
         fade.duration = 300
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun animateRevealShow() {
+        ViewAnimUtils.animateRevealShow(
+            this, activity_search_root_rl,
+            fab_circle.width / 2, R.color.backgroundColor,
+            object : ViewAnimUtils.OnRevealAnimationListener {
+                override fun onRevealHide() {
+                }
+
+                override fun onRevealShow() {
+                    setUpView()
+                }
+            }
+        )
+    }
+
+    private fun setUpView() {
+        val animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in)
+        animation.duration = 300
+        search_container.startAnimation(animation)
+        search_container.visibility = View.VISIBLE
+        //打开软键盘
+        openKeyBoard(et_search_view)
+    }
+
     override fun initView() {
+
+    }
+
+    override fun initListener() {
+        tv_cancel.setOnClickListener { onBackPressed() }
     }
 
     override fun startRequest() {
