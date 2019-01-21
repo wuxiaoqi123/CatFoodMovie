@@ -6,11 +6,15 @@ import android.os.Build
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
-import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.contract.SearchContract
+import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.presenter.SearchPresenter
 import com.welcome.catfood.utils.ViewAnimUtils
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -23,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  *     version: 1.0
  * </pre>
  */
-class SearchActivity : BaseActivity<IBasePresenter>() {
+class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.View {
 
     override fun layoutId() = R.layout.activity_search
 
@@ -106,7 +110,35 @@ class SearchActivity : BaseActivity<IBasePresenter>() {
         tv_cancel.setOnClickListener { onBackPressed() }
     }
 
+    override fun getPresenter(): SearchContract.Presenter = SearchPresenter(this)
+
     override fun startRequest() {
+        presenterImp?.requestHotWordData()
+    }
+
+    override fun setHotWordData(string: ArrayList<String>) {
+        Log.i("wxq", "成功->" + string[0])
+    }
+
+    override fun setSearchResult(issue: HomeBean.Issue) {
+    }
+
+    override fun setEmptyView() {
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
+        showToast(errMsg)
+//        if (errorCode == ErrorStatus.NETWORK_ERROR) {
+//            mLayoutStatusView?.showNoNetwork()
+//        } else {
+//            mLayoutStatusView?.showError()
+//        }
     }
 
     private fun defaultBackPressed() {
