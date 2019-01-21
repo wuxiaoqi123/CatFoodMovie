@@ -62,7 +62,8 @@ abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
 
     fun openKeyBoard(mInput: EditText) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(mInput, 0)
+        imm.showSoftInput(mInput, InputMethodManager.RESULT_SHOWN)
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     fun closeKeyBoard(mInput: EditText) {
@@ -70,7 +71,11 @@ abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
         imm.hideSoftInputFromWindow(mInput.windowToken, 0)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

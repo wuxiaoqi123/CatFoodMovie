@@ -94,6 +94,7 @@ class SearchActivity : BaseActivity<IBasePresenter>() {
         search_container.startAnimation(animation)
         search_container.visibility = View.VISIBLE
         //打开软键盘
+        et_search_view.requestFocus()
         openKeyBoard(et_search_view)
     }
 
@@ -106,5 +107,29 @@ class SearchActivity : BaseActivity<IBasePresenter>() {
     }
 
     override fun startRequest() {
+    }
+
+    private fun defaultBackPressed() {
+        closeKeyBoard(et_search_view)
+        super.onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewAnimUtils.animateRevealHide(this,
+                search_container,
+                fab_circle.width / 2,
+                R.color.backgroundColor,
+                object : ViewAnimUtils.OnRevealAnimationListener {
+                    override fun onRevealHide() {
+                        defaultBackPressed()
+                    }
+
+                    override fun onRevealShow() {
+                    }
+                })
+        } else {
+            defaultBackPressed()
+        }
     }
 }
