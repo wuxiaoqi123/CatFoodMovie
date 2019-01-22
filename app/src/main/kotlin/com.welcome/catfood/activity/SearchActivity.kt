@@ -6,10 +6,11 @@ import android.os.Build
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import com.google.android.flexbox.*
 import com.welcome.catfood.R
+import com.welcome.catfood.adapter.HotKeywordsAdapter
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.SearchContract
@@ -28,6 +29,10 @@ import kotlinx.android.synthetic.main.activity_search.*
  * </pre>
  */
 class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.View {
+
+    private var mHotKeywordsAdapter: HotKeywordsAdapter? = null
+
+    private var keyWords: String? = null
 
     override fun layoutId() = R.layout.activity_search
 
@@ -117,7 +122,30 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
     }
 
     override fun setHotWordData(string: ArrayList<String>) {
-        Log.i("wxq", "成功->" + string[0])
+        showHotWordView()
+        mHotKeywordsAdapter = HotKeywordsAdapter(this, string, R.layout.item_flow_text)
+        val flexBoxLayoutManager = FlexboxLayoutManager(this)
+        flexBoxLayoutManager.flexWrap = FlexWrap.WRAP
+        flexBoxLayoutManager.flexDirection = FlexDirection.ROW
+        flexBoxLayoutManager.alignItems = AlignItems.CENTER
+        flexBoxLayoutManager.justifyContent = JustifyContent.FLEX_START
+        search_hot_recyclerview.layoutManager = flexBoxLayoutManager
+        search_hot_recyclerview.adapter = mHotKeywordsAdapter
+        mHotKeywordsAdapter!!.setOnTagItemClickListener {
+            closeSoftKeyboard()
+            keyWords = it
+            presenterImp?.querySearchData(it)
+        }
+    }
+
+    private fun showHotWordView() {
+        layout_hot_words.visibility = View.VISIBLE
+        layout_content_result.visibility = View.GONE
+    }
+
+    private fun hideHotWordView() {
+        layout_hot_words.visibility = View.GONE
+        layout_content_result.visibility = View.VISIBLE
     }
 
     override fun setSearchResult(issue: HomeBean.Issue) {
@@ -141,8 +169,12 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
 //        }
     }
 
-    private fun defaultBackPressed() {
+    private fun closeSoftKeyboard() {
         closeKeyBoard(et_search_view)
+    }
+
+    private fun defaultBackPressed() {
+        closeSoftKeyboard()
         super.onBackPressed()
     }
 

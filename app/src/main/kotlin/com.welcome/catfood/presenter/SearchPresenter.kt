@@ -1,5 +1,6 @@
 package com.welcome.catfood.presenter
 
+import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.SearchContract
 import com.welcome.catfood.model.Action
 import com.welcome.catfood.model.SearchModel
@@ -33,9 +34,34 @@ class SearchPresenter(val mView: SearchContract.View) : SearchContract.Presenter
     }
 
     override fun querySearchData(words: String) {
+        mView.showLoading()
+        searchModel.getSearchResult(words, object : Action<HomeBean.Issue> {
+            override fun success(data: HomeBean.Issue) {
+                mView.hideLoading()
+                if (data.count > 0 && data.itemList.size > 0) {
+                    mView.setSearchResult(data)
+                } else {
+                    mView.setEmptyView()
+                }
+            }
+
+            override fun fail(code: Int, message: String) {
+                mView.hideLoading()
+                mView.showErrMsg(code, message)
+            }
+        })
     }
 
     override fun loadMoreData() {
+        searchModel.loadMoreData(object : Action<HomeBean.Issue> {
+            override fun success(data: HomeBean.Issue) {
+                mView.setSearchResult(data)
+            }
+
+            override fun fail(code: Int, message: String) {
+                mView.showErrMsg(code, message)
+            }
+        })
     }
 
     override fun cancel() {
