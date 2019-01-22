@@ -3,18 +3,24 @@ package com.welcome.catfood.activity
 import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import com.google.android.flexbox.*
 import com.welcome.catfood.R
+import com.welcome.catfood.adapter.CategoryDetailAdapter
 import com.welcome.catfood.adapter.HotKeywordsAdapter
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.SearchContract
 import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.SearchPresenter
 import com.welcome.catfood.utils.ViewAnimUtils
 import kotlinx.android.synthetic.main.activity_search.*
@@ -32,14 +38,26 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
 
     private var mHotKeywordsAdapter: HotKeywordsAdapter? = null
 
+    private val mResultAdapter by lazy {
+        CategoryDetailAdapter(
+            this,
+            itemList,
+            R.layout.item_category_detail
+        )
+    }
+
     private var keyWords: String? = null
+
+    private var itemList = ArrayList<HomeBean.Issue.Item>()
+
+    private var loadingMore = false
 
     override fun layoutId() = R.layout.activity_search
 
     override fun initData(intent: Intent?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setUpEnterAnimation();
-            setUpExitAnimation();
+            setUpEnterAnimation()
+            setUpExitAnimation()
         } else {
             val animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in)
             animation.duration = 300
@@ -108,11 +126,43 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
     }
 
     override fun initView() {
-
+        mLayoutStatusView = multipleStatusView
+        mRecyclerView_result.layoutManager = LinearLayoutManager(this)
+        mRecyclerView_result.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+        mRecyclerView_result.adapter = mResultAdapter
     }
 
     override fun initListener() {
         tv_cancel.setOnClickListener { onBackPressed() }
+        mRecyclerView_result.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                val itemCount = mRecyclerView_result.layoutManager.itemCount
+                val lastVisibleItem =
+                    (mRecyclerView_result.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (!loadingMore && lastVisibleItem == (itemCount - 1)) {
+                    loadingMore = true
+                    presenterImp?.loadMoreData()
+                }
+            }
+        })
+        et_search_view.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                closeSoftKeyboard()
+                keyWords = et_search_view.text.toString().trim()
+                if (keyWords.isNullOrEmpty()) {
+                    showToast("请输入你感兴趣的关键词")
+                } else {
+                    mResultAdapter.clear()
+                    presenterImp?.querySearchData(keyWords!!)
+                }
+            }
+            false
+        }
     }
 
     override fun getPresenter(): SearchContract.Presenter = SearchPresenter(this)
@@ -134,6 +184,7 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
         mHotKeywordsAdapter!!.setOnTagItemClickListener {
             closeSoftKeyboard()
             keyWords = it
+            mResultAdapter.clear()
             presenterImp?.querySearchData(it)
         }
     }
@@ -149,24 +200,35 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
     }
 
     override fun setSearchResult(issue: HomeBean.Issue) {
+        loadingMore = false
+        hideHotWordView()
+        tv_search_count.visibility = View.VISIBLE
+        tv_search_count.text = String.format("-「%s」搜索结果共%d个-", keyWords, issue.total)
+        mResultAdapter.addData(issue.itemList)
     }
 
     override fun setEmptyView() {
+        showToast("抱歉，没有找到相匹配的内容")
+        hideHotWordView()
+        tv_search_count.visibility = View.GONE
+        mLayoutStatusView?.showEmpty()
     }
 
     override fun showLoading() {
+        mLayoutStatusView?.showLoading()
     }
 
     override fun hideLoading() {
+        mLayoutStatusView?.showContent()
     }
 
     override fun showErrMsg(errCode: Int, errMsg: String) {
         showToast(errMsg)
-//        if (errorCode == ErrorStatus.NETWORK_ERROR) {
-//            mLayoutStatusView?.showNoNetwork()
-//        } else {
-//            mLayoutStatusView?.showError()
-//        }
+        if (errCode == ExceptionHandler.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 
     private fun closeSoftKeyboard() {
