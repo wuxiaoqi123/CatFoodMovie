@@ -15,6 +15,12 @@ import com.welcome.catfood.base.IBasePresenter
  */
 class VideoDetailActivity : BaseActivity<IBasePresenter>() {
 
+    companion object {
+        const val BUNDLE_VIDEO_DATA = "video_data"
+        const val IMG_TRANSITION = "img_transition"
+        const val TRANSITION = "transition"
+    }
+
     override fun layoutId(): Int = R.layout.activity_video_detail
 
     override fun initView() {
