@@ -4,10 +4,16 @@ import android.content.Intent
 import android.os.Build
 import android.support.v4.view.ViewCompat
 import android.transition.Transition
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
 import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.ui.VideoListener
 import kotlinx.android.synthetic.main.activity_video_detail.*
 
 /**
@@ -30,6 +36,9 @@ class VideoDetailActivity : BaseActivity<IBasePresenter>() {
     private lateinit var itemData: HomeBean.Issue.Item
     private var isTransition = false
 
+    private var orientationUtls: OrientationUtils? = null
+    private var isPlay = false
+
     override fun layoutId(): Int = R.layout.activity_video_detail
 
     override fun initData(intent: Intent?) {
@@ -45,6 +54,7 @@ class VideoDetailActivity : BaseActivity<IBasePresenter>() {
 
     override fun initView() {
         initTransition()
+        initVideoViewConfig()
     }
 
     private fun initTransition() {
@@ -73,6 +83,50 @@ class VideoDetailActivity : BaseActivity<IBasePresenter>() {
             startPostponedEnterTransition()
         } else {
             loadVideoInfo()
+        }
+    }
+
+    private fun initVideoViewConfig() {
+        orientationUtls = OrientationUtils(this, mVideoView)
+        mVideoView.isRotateViewAuto = false
+        mVideoView.setIsTouchWiget(true)
+
+        val imageView = ImageView(this)
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        Glide.with(this)
+            .load(itemData.data?.cover?.feed)
+            .apply(RequestOptions().centerCrop())
+            .into(imageView)
+        mVideoView.thumbImageView = imageView
+        mVideoView.setStandardVideoAllCallBack(object : VideoListener {
+            override fun onPrepared(url: String?, vararg objects: Any?) {
+                orientationUtls?.isEnable = true
+                isPlay = true
+            }
+
+            override fun onAutoComplete(url: String?, vararg objects: Any?) {
+                super.onAutoComplete(url, *objects)
+            }
+
+            override fun onPlayError(url: String?, vararg objects: Any?) {
+                showToast("播放出错，请重试")
+            }
+
+            override fun onEnterFullscreen(url: String?, vararg objects: Any?) {
+                super.onEnterFullscreen(url, *objects)
+            }
+
+            override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
+                orientationUtls?.backToProtVideo()
+            }
+        })
+        mVideoView.backButton.setOnClickListener { onBackPressed() }
+        mVideoView.fullscreenButton.setOnClickListener {
+            orientationUtls?.resolveByClick()
+            mVideoView.startWindowFullscreen(this, true, true)
+        }
+        mVideoView.setLockClickListener { _, lock ->
+            orientationUtls?.isEnable = !lock
         }
     }
 
