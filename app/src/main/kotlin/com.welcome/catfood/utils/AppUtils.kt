@@ -2,7 +2,9 @@ package com.welcome.catfood.utils
 
 import android.content.Context
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.os.Build
+import com.welcome.catfood.app.CatFoodApplication
 
 /**
  * <pre>
@@ -37,6 +39,14 @@ class AppUtils private constructor() {
                 val packageInfo = packageManager.getPackageInfo(packageName, 0)
                 packageInfo.versionName
             }
+        }
+
+        @JvmStatic
+        fun isWifi(): Boolean {
+            val connectivityManager =
+                CatFoodApplication.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetInfo = connectivityManager.activeNetworkInfo
+            return activeNetInfo != null && activeNetInfo.type == ConnectivityManager.TYPE_WIFI
         }
     }
 }

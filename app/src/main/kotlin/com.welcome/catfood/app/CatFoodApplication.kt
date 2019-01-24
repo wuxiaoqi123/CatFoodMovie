@@ -39,6 +39,7 @@ class CatFoodApplication : Application() {
         super.onCreate()
         context = applicationContext
         initConfig()
+        com.welcome.catfood.manager.DisplayManager
         refWatcher = setupLeakCanary()
 
     }

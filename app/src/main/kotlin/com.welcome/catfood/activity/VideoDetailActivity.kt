@@ -1,18 +1,23 @@
 package com.welcome.catfood.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.support.v4.view.ViewCompat
 import android.transition.Transition
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
-import com.welcome.catfood.base.IBasePresenter
 import com.welcome.catfood.bean.HomeBean
+import com.welcome.catfood.contract.VideoDetailContract
 import com.welcome.catfood.extend.showToast
+import com.welcome.catfood.presenter.VideoDetailPresenter
 import com.welcome.catfood.ui.VideoListener
 import kotlinx.android.synthetic.main.activity_video_detail.*
 
@@ -25,7 +30,8 @@ import kotlinx.android.synthetic.main.activity_video_detail.*
  *     version: 1.0
  * </pre>
  */
-class VideoDetailActivity : BaseActivity<IBasePresenter>() {
+class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
+    VideoDetailContract.View {
 
     companion object {
         const val BUNDLE_VIDEO_DATA = "video_data"
@@ -38,6 +44,7 @@ class VideoDetailActivity : BaseActivity<IBasePresenter>() {
 
     private var orientationUtls: OrientationUtils? = null
     private var isPlay = false
+    private var isPause = false
 
     override fun layoutId(): Int = R.layout.activity_video_detail
 
@@ -131,9 +138,73 @@ class VideoDetailActivity : BaseActivity<IBasePresenter>() {
     }
 
     private fun loadVideoInfo() {
-        //TODO
+        presenterImp?.loadVideoInfo(itemData)
     }
 
     override fun startRequest() {
+    }
+
+    override fun getPresenter(): VideoDetailContract.Presenter = VideoDetailPresenter(this)
+
+    override fun setVideo(url: String) {
+        mVideoView.setUp(url, false, "")
+        mVideoView.startPlayLogic()
+    }
+
+    override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {
+        itemData = itemInfo
+
+    }
+
+    override fun setBackground(url: String) {
+        Glide.with(this)
+            .load(url)
+            .apply(RequestOptions().centerCrop().format(DecodeFormat.PREFER_ARGB_8888))
+            .transition(DrawableTransitionOptions().crossFade())
+            .into(mVideoBackground)
+    }
+
+    override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showErrMsg(errCode: Int, errMsg: String) {
+        showToast(errMsg)
+    }
+
+    private fun getCurPlay(): GSYVideoPlayer {
+        return if (mVideoView.fullWindowPlayer != null) {
+            mVideoView.fullWindowPlayer
+        } else mVideoView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getCurPlay().onVideoResume()
+        isPause = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        getCurPlay().onVideoPause()
+        isPause = true
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        if (isPlay && !isPause) {
+            mVideoView.onConfigurationChanged(this, newConfig, orientationUtls)
+        }
+    }
+
+    override fun onDestroy() {
+        GSYVideoPlayer.releaseAllVideos()
+        orientationUtls?.releaseListener()
+        super.onDestroy()
     }
 }
