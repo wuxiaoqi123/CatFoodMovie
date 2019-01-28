@@ -4,15 +4,18 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.transition.Transition
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.scwang.smartrefresh.header.MaterialHeader
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import com.welcome.catfood.R
+import com.welcome.catfood.adapter.VideoDetailAdapter
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.VideoDetailContract
@@ -42,9 +45,14 @@ class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
     private lateinit var itemData: HomeBean.Issue.Item
     private var isTransition = false
 
+    private var mMaterialHeader: MaterialHeader? = null
+
     private var orientationUtls: OrientationUtils? = null
     private var isPlay = false
     private var isPause = false
+
+    private var itemList = java.util.ArrayList<HomeBean.Issue.Item>()
+    private val mAdapter by lazy { VideoDetailAdapter(this, itemList) }
 
     override fun layoutId(): Int = R.layout.activity_video_detail
 
@@ -62,6 +70,17 @@ class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
     override fun initView() {
         initTransition()
         initVideoViewConfig()
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = mAdapter
+        mRefreshLayout.setEnableHeaderTranslationContent(true)
+        mRefreshLayout.setOnRefreshListener {
+            loadVideoInfo()
+        }
+        mMaterialHeader = mRefreshLayout.refreshHeader as MaterialHeader?
+        //打开下拉刷新区域块背景:
+        mMaterialHeader?.setShowBezierWave(true)
+        //设置下拉刷新主题颜色
+        mRefreshLayout.setPrimaryColorsId(R.color.color_light_black, R.color.color_title_bg)
     }
 
     private fun initTransition() {
@@ -153,7 +172,8 @@ class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
 
     override fun setVideoInfo(itemInfo: HomeBean.Issue.Item) {
         itemData = itemInfo
-
+        mAdapter.addData(itemInfo)
+        presenterImp?.requestRelatedVideo(itemInfo.data?.id ?: 0)
     }
 
     override fun setBackground(url: String) {
@@ -165,6 +185,8 @@ class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
     }
 
     override fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>) {
+        this.itemList = itemList
+        mAdapter.addData(itemList)
     }
 
     override fun showLoading() {
