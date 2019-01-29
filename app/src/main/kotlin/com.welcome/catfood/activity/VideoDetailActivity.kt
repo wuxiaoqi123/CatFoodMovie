@@ -51,7 +51,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailContract.Presenter>(),
     private var isPlay = false
     private var isPause = false
 
-    private var itemList = java.util.ArrayList<HomeBean.Issue.Item>()
+    private var itemList = ArrayList<HomeBean.Issue.Item>()
     private val mAdapter by lazy { VideoDetailAdapter(this, itemList) }
 
     override fun layoutId(): Int = R.layout.activity_video_detail
