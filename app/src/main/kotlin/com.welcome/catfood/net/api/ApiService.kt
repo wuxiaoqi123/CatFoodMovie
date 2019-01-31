@@ -66,4 +66,10 @@ interface ApiService {
      */
     @GET("v1/search?&num=10&start=10")
     fun getSearchData(@Query("query") query: String): Observable<HomeBean.Issue>
+
+    /**
+     * 获取分类详情list
+     */
+    @GET("v4/categories/videoList?")
+    fun getCategoryDetailList(@Query("id") id: Long): Observable<HomeBean.Issue>
 }
