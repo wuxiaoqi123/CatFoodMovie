@@ -2,13 +2,16 @@ package com.welcome.catfood.activity
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
+import com.welcome.catfood.extend.getStatusBarHeight
 import com.welcome.catfood.extend.showToastCenter
 import com.welcome.catfood.fragment.FindFragment
 import com.welcome.catfood.fragment.HomeFragment
@@ -23,7 +26,16 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     }
 
     override fun initView() {
+        initStatusBar()
         initTabs()
+    }
+
+    private fun initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val lp = LinearLayout.LayoutParams(-1, getStatusBarHeight())
+            mStatusBarView.layoutParams = lp
+            mStatusBarView.requestLayout()
+        }
     }
 
     private fun initTabs() {

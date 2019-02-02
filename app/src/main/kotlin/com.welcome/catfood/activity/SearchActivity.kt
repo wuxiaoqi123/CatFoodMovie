@@ -12,6 +12,7 @@ import android.transition.TransitionInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import com.google.android.flexbox.*
 import com.welcome.catfood.R
 import com.welcome.catfood.adapter.CategoryDetailAdapter
@@ -19,6 +20,7 @@ import com.welcome.catfood.adapter.HotKeywordsAdapter
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.SearchContract
+import com.welcome.catfood.extend.getStatusBarHeight
 import com.welcome.catfood.extend.showToast
 import com.welcome.catfood.net.exception.ExceptionHandler
 import com.welcome.catfood.presenter.SearchPresenter
@@ -126,6 +128,7 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
     }
 
     override fun initView() {
+        initStatusBar()
         mLayoutStatusView = multipleStatusView
         mRecyclerView_result.layoutManager = LinearLayoutManager(this)
         mRecyclerView_result.addItemDecoration(
@@ -135,6 +138,14 @@ class SearchActivity : BaseActivity<SearchContract.Presenter>(), SearchContract.
             )
         )
         mRecyclerView_result.adapter = mResultAdapter
+    }
+
+    private fun initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val lp = LinearLayout.LayoutParams(-1, getStatusBarHeight())
+            mStatusBarView.layoutParams = lp
+            mStatusBarView.requestLayout()
+        }
     }
 
     override fun initListener() {

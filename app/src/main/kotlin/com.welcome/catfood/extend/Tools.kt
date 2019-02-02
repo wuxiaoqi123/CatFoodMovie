@@ -22,6 +22,15 @@ fun Activity.getVersionName(): String {
     return packageInfo.versionName
 }
 
+fun Activity.getStatusBarHeight(): Int {
+    var statusBarHeight: Int = -1
+    val resources = resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resources > 0) {
+        statusBarHeight = getResources().getDimensionPixelSize(resources)
+    }
+    return statusBarHeight
+}
+
 fun View.dp2px(value: Float): Float {
     val density = Resources.getSystem().displayMetrics.density
     return (value * density + 0.5f)
