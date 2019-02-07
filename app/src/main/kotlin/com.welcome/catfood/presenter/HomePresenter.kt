@@ -2,6 +2,7 @@ package com.welcome.catfood.presenter
 
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.HomeContract
+import com.welcome.catfood.model.Action
 import com.welcome.catfood.model.HomeModel
 
 /**
@@ -24,10 +25,11 @@ class HomePresenter(view: HomeContract.View) : HomeContract.Presenter {
 
     override fun loadHomeData(num: Int) {
         mView.showLoading()
-        homeModel.loadHomeData(num, object : HomeModel.CallbackLoad {
-            override fun success(t: HomeBean) {
+        homeModel.loadHomeData(num, object : Action<HomeBean> {
+
+            override fun success(data: HomeBean) {
                 mView.hideLoading()
-                mView.setHomeData(t)
+                mView.setHomeData(data)
                 loadMoreHomeData()
             }
 
@@ -40,10 +42,10 @@ class HomePresenter(view: HomeContract.View) : HomeContract.Presenter {
 
     override fun loadMoreHomeData() {
 //        mView.showLoading()
-        homeModel.loadMoreHomeData(object : HomeModel.CallbackLoadMore {
-            override fun success(t: ArrayList<HomeBean.Issue.Item>) {
+        homeModel.loadMoreHomeData(object : Action<ArrayList<HomeBean.Issue.Item>> {
+            override fun success(data: ArrayList<HomeBean.Issue.Item>) {
 //                mView.hideLoading()
-                mView.addHomeData(t)
+                mView.addHomeData(data)
             }
 
             override fun fail(code: Int, message: String) {

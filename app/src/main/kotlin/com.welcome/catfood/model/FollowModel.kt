@@ -22,7 +22,7 @@ class FollowModel(view: IBaseView) : BaseModel(view) {
 
     private var nextPageUrl: String? = null
 
-    fun loadData(callback: CallbackLoad) {
+    fun loadData(callback: Action<HomeBean.Issue>) {
         RetrofitManager.service.getFollowInfo()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +44,7 @@ class FollowModel(view: IBaseView) : BaseModel(view) {
             })
     }
 
-    fun loadMoreData(callback: CallbackLoad) {
+    fun loadMoreData(callback: Action<HomeBean.Issue>) {
         nextPageUrl?.let {
             RetrofitManager.service.getIssueData(it)
                 .subscribeOn(Schedulers.io())
@@ -65,11 +65,5 @@ class FollowModel(view: IBaseView) : BaseModel(view) {
                     }
                 })
         }
-    }
-
-    interface CallbackLoad {
-        fun success(t: HomeBean.Issue)
-
-        fun fail(code: Int, message: String)
     }
 }

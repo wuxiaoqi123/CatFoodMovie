@@ -26,7 +26,7 @@ class HomeModel(view: IBaseView) : BaseModel(view) {
 
     private var nextPageUrl: String? = null
 
-    fun loadHomeData(num: Int, callback: CallbackLoad) {
+    fun loadHomeData(num: Int, callback: Action<HomeBean>) {
         RetrofitManager.service.getHomeData(num)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -60,7 +60,7 @@ class HomeModel(view: IBaseView) : BaseModel(view) {
                 })
     }
 
-    fun loadMoreHomeData(callback: CallbackLoadMore) {
+    fun loadMoreHomeData(callback: Action<ArrayList<HomeBean.Issue.Item>>) {
         RetrofitManager.service.getHomeMoreData(nextPageUrl!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -90,17 +90,5 @@ class HomeModel(view: IBaseView) : BaseModel(view) {
                     callback.success(t)
                 }
             })
-    }
-
-    interface CallbackLoad {
-        fun success(t: HomeBean)
-
-        fun fail(code: Int, message: String)
-    }
-
-    interface CallbackLoadMore {
-        fun success(t: ArrayList<HomeBean.Issue.Item>)
-
-        fun fail(code: Int, message: String)
     }
 }

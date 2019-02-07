@@ -2,6 +2,7 @@ package com.welcome.catfood.presenter
 
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.FollowContract
+import com.welcome.catfood.model.Action
 import com.welcome.catfood.model.FollowModel
 
 /**
@@ -19,10 +20,11 @@ class FollowPresenter(private val mView: FollowContract.View) : FollowContract.P
 
     override fun loadData() {
         mView.showLoading()
-        followModel.loadData(object : FollowModel.CallbackLoad {
-            override fun success(t: HomeBean.Issue) {
+        followModel.loadData(object : Action<HomeBean.Issue> {
+
+            override fun success(data: HomeBean.Issue) {
                 mView.hideLoading()
-                mView.setFollowInfo(t)
+                mView.setFollowInfo(data)
             }
 
             override fun fail(code: Int, message: String) {
@@ -34,10 +36,11 @@ class FollowPresenter(private val mView: FollowContract.View) : FollowContract.P
 
     override fun loadMoreData() {
 //        mView.showLoading()
-        followModel.loadMoreData(object : FollowModel.CallbackLoad {
-            override fun success(t: HomeBean.Issue) {
+        followModel.loadMoreData(object : Action<HomeBean.Issue> {
+
+            override fun success(data: HomeBean.Issue) {
 //                mView.hideLoading()
-                mView.setFollowInfo(t)
+                mView.setFollowInfo(data)
             }
 
             override fun fail(code: Int, message: String) {

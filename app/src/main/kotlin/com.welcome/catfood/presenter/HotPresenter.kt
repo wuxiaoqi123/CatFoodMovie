@@ -2,6 +2,7 @@ package com.welcome.catfood.presenter
 
 import com.welcome.catfood.bean.TabInfoBean
 import com.welcome.catfood.contract.HotContract
+import com.welcome.catfood.model.Action
 import com.welcome.catfood.model.HotModel
 
 /**
@@ -19,10 +20,11 @@ class HotPresenter(val mView: HotContract.View) : HotContract.Presenter {
 
     override fun loadTabInfo() {
         mView.showLoading()
-        hotModel.loadTabInfo(object : HotModel.Callback {
-            override fun success(tabInfoBean: TabInfoBean) {
+        hotModel.loadTabInfo(object : Action<TabInfoBean> {
+
+            override fun success(data: TabInfoBean) {
                 mView.hideLoading()
-                mView.setTabInfo(tabInfoBean)
+                mView.setTabInfo(data)
             }
 
             override fun fail(code: Int, message: String) {

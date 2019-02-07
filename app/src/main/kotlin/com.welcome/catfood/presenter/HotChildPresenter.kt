@@ -2,8 +2,8 @@ package com.welcome.catfood.presenter
 
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.contract.HotChildContract
+import com.welcome.catfood.model.Action
 import com.welcome.catfood.model.HotChildModel
-import com.welcome.catfood.net.callback.CommonCallback
 
 /**
  * <pre>
@@ -20,7 +20,8 @@ class HotChildPresenter(val mView: HotChildContract.View) : HotChildContract.Pre
 
     override fun loadDataList(apiUrl: String) {
         mView.showLoading()
-        hotChildModel.loadData(apiUrl, object : CommonCallback<HomeBean.Issue> {
+        hotChildModel.loadData(apiUrl, object : Action<HomeBean.Issue> {
+
             override fun fail(code: Int, message: String) {
                 mView.hideLoading()
                 mView.showErrMsg(code, message)

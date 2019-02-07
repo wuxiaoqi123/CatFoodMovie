@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class HotModel(val view: IBaseView) : BaseModel(view) {
 
-    fun loadTabInfo(callback: Callback) {
+    fun loadTabInfo(callback: Action<TabInfoBean>) {
         RetrofitManager.service.getRankList()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -39,12 +39,5 @@ class HotModel(val view: IBaseView) : BaseModel(view) {
                     callback.success(t)
                 }
             })
-    }
-
-    interface Callback {
-
-        fun success(tabInfoBean: TabInfoBean)
-
-        fun fail(code: Int, message: String)
     }
 }

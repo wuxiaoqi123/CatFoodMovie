@@ -4,7 +4,6 @@ import com.welcome.catfood.base.BaseModel
 import com.welcome.catfood.base.IBaseView
 import com.welcome.catfood.bean.HomeBean
 import com.welcome.catfood.net.RetrofitManager
-import com.welcome.catfood.net.callback.CommonCallback
 import com.welcome.catfood.net.callback.RxObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class HotChildModel(mView: IBaseView) : BaseModel(mView) {
 
-    fun loadData(apiUrl: String, callback: CommonCallback<HomeBean.Issue>) {
+    fun loadData(apiUrl: String, callback: Action<HomeBean.Issue>) {
         RetrofitManager.service.getIssueData(apiUrl)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
