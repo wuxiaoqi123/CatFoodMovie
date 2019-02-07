@@ -3,6 +3,7 @@ package com.welcome.catfood.activity
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -18,12 +19,11 @@ import com.welcome.catfood.fragment.HomeFragment
 import com.welcome.catfood.fragment.HotFragment
 import com.welcome.catfood.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_main_content.*
 
 class MainActivity : BaseActivity<IBasePresenter>() {
 
-    override fun layoutId(): Int {
-        return R.layout.activity_main
-    }
+    override fun layoutId(): Int = R.layout.activity_main
 
     override fun initView() {
         initStatusBar()
@@ -76,6 +76,10 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     private var mExitTime: Long = 0
 
     override fun onBackPressed() {
+        if (drawerlayout.isDrawerOpen(Gravity.START)) {
+            drawerlayout.closeDrawer(Gravity.START)
+            return
+        }
         if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
             super.onBackPressed()
         } else {

@@ -106,6 +106,6 @@ abstract class BaseActivity<P : IBasePresenter> : RxAppCompatActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        CatFoodApplication.getRefWatcher(this)!!.watch(this)
+        CatFoodApplication.getRefWatcher(this)?.watch(this)
     }
 }

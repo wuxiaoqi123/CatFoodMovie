@@ -14,6 +14,9 @@ object SettingManager {
     // wifi 连网
     val SET_WIFI_CONNECT = "set_wifi_connect"
 
+    // 自动播放w
+    val AUTO_PLAY = "auto_play"
+
     // 主题颜色
     val THEME_COLOR = "theme_color"
 

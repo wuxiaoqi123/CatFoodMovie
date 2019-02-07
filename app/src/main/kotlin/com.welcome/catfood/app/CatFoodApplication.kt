@@ -40,8 +40,7 @@ class CatFoodApplication : Application() {
         context = applicationContext
         initConfig()
         com.welcome.catfood.manager.DisplayManager
-        refWatcher = setupLeakCanary()
-
+//        refWatcher = setupLeakCanary()
     }
 
     private fun initConfig() {
