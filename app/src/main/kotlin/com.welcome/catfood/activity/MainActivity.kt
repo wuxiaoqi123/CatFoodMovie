@@ -1,6 +1,7 @@
 package com.welcome.catfood.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.view.Gravity
@@ -28,6 +29,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     override fun initView() {
         initStatusBar()
         initTabs()
+        initLeftMenu()
     }
 
     private fun initStatusBar() {
@@ -55,6 +57,45 @@ class MainActivity : BaseActivity<IBasePresenter>() {
         tabhost.addTab(mineTabSpec, MineFragment::class.java, null)
         tabhost.tabWidget.setDividerDrawable(android.R.color.transparent)
         tabhost.setBackgroundColor(Color.TRANSPARENT)
+    }
+
+    private fun initLeftMenu() {
+        activity_main_nav_view.itemIconTintList = null
+        activity_main_nav_view.setNavigationItemSelectedListener {
+            drawerlayout.closeDrawer(Gravity.START)
+            when (it.itemId) {
+                R.id.project -> showProjectAddressDialog()
+                R.id.down -> showScanDownLoadDialog()
+                R.id.share -> share()
+                R.id.about -> about()
+                R.id.exit -> exit()
+            }
+            true
+        }
+    }
+
+    private fun showProjectAddressDialog() {
+
+    }
+
+    private fun showScanDownLoadDialog() {
+
+    }
+
+    private fun share() {
+        val intent = Intent().setAction(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url))
+        startActivity(Intent.createChooser(intent, "分享"))
+    }
+
+    private fun about() {
+
+    }
+
+    private fun exit() {
+        finish()
+        android.os.Process.killProcess(android.os.Process.myPid())
     }
 
     /**
