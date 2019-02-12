@@ -3,6 +3,7 @@ package com.welcome.catfood.ui
 import android.app.Dialog
 import android.content.Context
 import android.support.annotation.LayoutRes
+import com.welcome.catfood.R
 
 /**
  * <pre>
@@ -23,14 +24,17 @@ abstract class BaseMenuDialog : Dialog {
         mContext = context
     }
 
-    constructor(context: Context) : this(context, 0)
+    constructor(context: Context) : this(context, R.style.menu_dialog)
 
     constructor(context: Context, themeRes: Int) : super(context, themeRes) {
         setContentView(getContentView())
         setCanceledOnTouchOutside(true)
         setCancelable(true)
+        initViews()
     }
 
     @LayoutRes
     abstract fun getContentView(): Int
+
+    abstract fun initViews()
 }

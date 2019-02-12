@@ -1,5 +1,7 @@
 package com.welcome.catfood.manager
 
+import android.graphics.Color
+
 /**
  * <pre>
  *     author : wuxiaoqi
@@ -22,5 +24,8 @@ object SettingManager {
 
     // 夜间模式
     val HIGHT_MODEL = "hight_model"
+
+
+    fun getThemeColor(): Int = Color.parseColor("#1d9ce1")
 
 }

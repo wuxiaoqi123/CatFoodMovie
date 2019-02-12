@@ -19,10 +19,13 @@ import com.welcome.catfood.fragment.FindFragment
 import com.welcome.catfood.fragment.HomeFragment
 import com.welcome.catfood.fragment.HotFragment
 import com.welcome.catfood.fragment.MineFragment
+import com.welcome.catfood.ui.ProjectAddressDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_main_content.*
 
 class MainActivity : BaseActivity<IBasePresenter>() {
+
+    private val projectAddressDialog: ProjectAddressDialog by lazy { ProjectAddressDialog(this) }
 
     override fun layoutId(): Int = R.layout.activity_main
 
@@ -75,7 +78,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     }
 
     private fun showProjectAddressDialog() {
-
+        projectAddressDialog.show()
     }
 
     private fun showScanDownLoadDialog() {

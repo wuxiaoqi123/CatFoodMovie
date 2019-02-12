@@ -5,5 +5,6 @@
     <string name="error_view_hint">加载失败</string>
     <string name="no_network_view_hint">网络异常</string>
     <string name="share_url">我在使用猫粮电影，快去github上下载源码吧~ https://github.com/wuxiaoqi123/CatFoodMovie</string>
+    <string name="project_address_url"><a color='white' href='https://github.com/wuxiaoqi123/CatFoodMovie'>https://github.com/wuxiaoqi123/CatFoodMovie</a></string>
 
 </resources>
