@@ -19,6 +19,7 @@ import com.welcome.catfood.fragment.FindFragment
 import com.welcome.catfood.fragment.HomeFragment
 import com.welcome.catfood.fragment.HotFragment
 import com.welcome.catfood.fragment.MineFragment
+import com.welcome.catfood.ui.AboutDialog
 import com.welcome.catfood.ui.ProjectAddressDialog
 import com.welcome.catfood.ui.ScanDownLoadDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +29,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
 
     private val projectAddressDialog: ProjectAddressDialog by lazy { ProjectAddressDialog(this) }
     private val scanDownLoadDialog: ScanDownLoadDialog by lazy { ScanDownLoadDialog(this) }
+    private val aboutDialog: AboutDialog by lazy { AboutDialog(this) }
 
     override fun layoutId(): Int = R.layout.activity_main
 
@@ -95,7 +97,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
     }
 
     private fun about() {
-
+        aboutDialog.show()
     }
 
     private fun exit() {
