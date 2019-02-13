@@ -63,6 +63,12 @@
             android:name=".activity.AboutActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <!-- 个人主页 -->
+        <activity
+            android:name=".activity.PersonalHomepageActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
