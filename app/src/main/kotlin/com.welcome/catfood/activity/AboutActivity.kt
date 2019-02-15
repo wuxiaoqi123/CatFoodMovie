@@ -42,6 +42,9 @@ class AboutActivity : BaseActivity<IBasePresenter>() {
             val uri = Uri.parse("https://github.com/wuxiaoqi123/CatFoodMovie")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
+        relayout_setting.setOnClickListener {
+
+        }
     }
 
     private fun initStatusBar() {
