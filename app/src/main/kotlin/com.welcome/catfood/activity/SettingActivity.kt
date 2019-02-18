@@ -1,5 +1,6 @@
 package com.welcome.catfood.activity
 
+import com.welcome.catfood.R
 import com.welcome.catfood.base.BaseActivity
 import com.welcome.catfood.base.IBasePresenter
 
@@ -12,17 +13,13 @@ import com.welcome.catfood.base.IBasePresenter
  *     version: 1.0
  * </pre>
  */
-class SettingActivity: BaseActivity<IBasePresenter>() {
-    override fun layoutId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class SettingActivity : BaseActivity<IBasePresenter>() {
+
+    override fun layoutId(): Int = R.layout.activity_setting
 
     override fun initView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun startRequest() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }

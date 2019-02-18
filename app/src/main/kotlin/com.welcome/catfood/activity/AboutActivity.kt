@@ -43,7 +43,7 @@ class AboutActivity : BaseActivity<IBasePresenter>() {
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
         relayout_setting.setOnClickListener {
-
+            startActivity(Intent(this, SettingActivity::class.java))
         }
     }
 
