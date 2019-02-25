@@ -1,2 +1,2 @@
-# CatFoodMovie
-CatFood
+# 猫粮电影
+kotlin练手项目，仅用于个人学习
